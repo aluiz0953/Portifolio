@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio - André Luiz Guilarducci Pereira</title>
+    <meta name="description" content="Portfólio pessoal de André Luiz Guilarducci Pereira">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Menu de navegação fixo no topo -->
+    <header>
+        <nav class="navbar">
+            <span class="logo">André Luiz</span>
+
+            <!-- Controles para Theme Switching e Mobile Menu (agora via JS) -->
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button id="theme-toggle" class="btn-theme"
+                    style="background: none; border: 1px solid var(--branco, white); color: var(--branco, white); border-radius: 4px; padding: 4px 10px; cursor: pointer; font-size: 0.9rem; font-weight: bold;">🌙
+                    Tema Escuro</button>
+                <button id="menu-btn" class="hamburger">☰</button>
+            </div>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#sobre">Sobre mim</a></li>
+                <li><a href="#formacao">Formação</a></li>
+                <li><a href="#portfolio">Portfólio</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- ===== SEÇÃO: SOBRE MIM ===== -->
+        <section id="sobre">
+            <div class="container">
+                <h1>Sobre mim</h1>
+                <hr>
+                <p>
+                    Olá! Me chamo <strong>André Luiz Guilarducci Pereira</strong>, sou estudante de
+                    Ciências da Computação na <strong>Uninter</strong> — Juiz de Fora/MG, apaixonado por tecnologia e
+                    nos funcionamentos de maquinas.
+                </p>
+                <p>
+                    Gosto de trabalhar com reparos em computadores, redes de computadores, busco aprender novas areas
+                    da tecnologia, como por exemplo o desenvolvimento web, sistemas de dados e servidores em nuvem.
+                    Nas horas vagas, curto games, música e explorar novas tecnologias.
+                </p>
+
+                <!-- Informações básicas em lista -->
+                <ul class="info-lista">
+                    <li>📍 <strong>Localização:</strong> Santos Dumont, Minas Gerais, Brasil</li>
+                    <li>📧 <strong>E-mail:</strong> <a href="mailto:aluiz0953@gmail.com">aluiz0953@gmail.com</a></li>
+                    <li>📱 <strong>Telefone:</strong> (32) 99142-9442</li>
+                    <li>💻 <strong>GitHub:</strong> <a href="https://github.com/aluiz0953"
+                            target="_blank">github.com/aluiz0953</a></li>
+                    <li>🎯 <strong>Objetivo:</strong> Sistemas de Dados e Servidores em Nuvem</li>
+                </ul>
+
+                <!-- Habilidades técnicas em lista simples -->
+                <h2>Habilidades</h2>
+                <ul class="habilidades">
+                    <li>Manutenção e reparos de computadores</li>
+                    <li>Redes de computadores</li>
+                    <li>Basico de programação</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== SEÇÃO: FORMAÇÃO ===== -->
+        <section id="formacao" class="alt">
+            <div class="container">
+                <h1>Formação</h1>
+                <hr>
+
+                <!-- Formação acadêmica -->
+                <h2>Formação Acadêmica</h2>
+
+                <div class="card">
+                    <h3>Ciências da Computação</h3>
+                    <p class="periodo">2025 – Cursando · Uninter – Juiz de Fora/MG</p>
+                    <p>Graduação com foco em algoritmos, estruturas de dados, desenvolvimento de software, programação
+                        web e fundamentos de computação.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Ensino Médio Completo</h3>
+                    <p class="periodo">2022 – 2024 · E.E. Presidente João Pinheiro – Santos Dumont/MG</p>
+                    <p>Ensino médio concluído na Escola Estadual Presidente João Pinheiro.</p>
+                </div>
+
+                <!-- Idiomas -->
+                <h2>Idiomas</h2>
+                <ul class="info-lista">
+                    <li>🇧🇷 <strong>Português</strong> — Nativo</li>
+                    <li>🇺🇸 <strong>Inglês</strong> — Intermediário / Avançado</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===== SEÇÃO: PORTFÓLIO ===== -->
+        <section id="portfolio">
+            <div class="container">
+                <h1>Portfólio</h1>
+                <hr>
+                <p>Aqui estão alguns dos trabalhos que desenvolvi. Este portfólio está em constante atualização à medida
+                    em que aprendo novas tecnologias!</p>
+
+                <!-- Projetos -->
+                <div class="projetos">
+
+                    <div class="card">
+                        <h3>Blog TecnoLógica</h3>
+                        <!-- Imagem do Print atualizado com o screenshot do site em execução -->
+                        <img src="./print-tecnologica.png" alt="Print do Blog TecnoLógica em execução"
+                            style="width: 100%; height: 180px; object-fit: top; border-radius: 4px; border: 1px solid #ccc; margin-bottom: 10px;">
+
+                        <p>Site de notícias focado em Tecnologia, Jogos e Smartphones, desenvolvido como atividade
+                            prática. A página foi construída adotando o conceito de <em>Single Page Application</em>
+                            (SPA), onde todo o conteúdo é exibido em uma única tela, com navegação suave através de
+                            links âncoras no menu principal.</p>
+                        <p>O layout foi desenhado para ser responsivo, utilizando CSS Flexbox para reordenar os
+                            elementos no modo móvel. Cores, fontes e espaçamentos foram refinados para proporcionar uma
+                            leitura agradável e moderna.</p>
+
+                        <p class="tags">HTML · CSS</p>
+
+                        <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 15px;">
+                            <a href="https://aluiz0953.github.io/teste-blog-tecnologica/" target="_blank"
+                                class="btn">Abrir Projeto</a>
+                            <a href="https://github.com/aluiz0953/teste-blog-tecnologica" target="_blank" class="btn"
+                                style="background-color: #333;">Ver repositório no GitHub</a>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Este Portfólio</h3>
+
+                        <p>Meu primeiro projeto oficial: um portfólio web pessoal. O site foi criado do absoluto zero,
+                            utilizando apenas HTML5, CSS3 e JavaScript puro (Vanilla), sem dependência de bibliotecas
+                            externas ou templates prontos, para a consolidação dos conceitos base do desenvolvimento
+                            web.</p>
+                        <p>A página conta com controle de tema dinâmico (Claro/Escuro) utilizando o LocalStorage do
+                            navegador, tem um menu especial responsivo para dispositivos móveis e um formulário de
+                            contato integrado e funcional.</p>
+
+                        <p class="tags">HTML · CSS · JS</p>
+
+                        <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 15px;">
+                            <a href="https://aluiz0953.github.io/Portifolio/" target="_blank" class="btn">Acessar
+                                projeto</a>
+                            <a href="https://github.com/aluiz0953/Portifolio" target="_blank" class="btn"
+                                style="background-color: #333;">Ver repositório no GitHub</a>
+                        </div>
+                    </div>
+
+                </div>
+        </section>
+
+        <!-- ===== SEÇÃO: CONTATO ===== -->
+        <section id="contato" class="alt">
+            <div class="container">
+                <h1>Contato</h1>
+                <hr>
+                <p>Fique à vontade para entrar em contato por qualquer um dos canais abaixo ou pelo formulário:</p>
+
+                <!-- Links de contato -->
+                <ul class="info-lista">
+                    <li>📧 <a href="mailto:aluiz0953@gmail.com">aluiz0953@gmail.com</a></li>
+                    <li>📱 (32) 99142-9442</li>
+                    <li>💻 <a href="https://github.com/aluiz0953" target="_blank">github.com/aluiz0953</a></li>
+                </ul>
+
+                <!-- Formulário com ID para Validação JS (Sem action para simular o comportamento) -->
+                <form id="form-contato">
+                    <div class="campo">
+                        <label for="nome">Nome *</label>
+                        <input type="text" id="nome" name="name" placeholder="Seu nome completo" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="email">E-mail *</label>
+                        <input type="email" id="email" name="_replyto" placeholder="seu@email.com" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="mensagem">Mensagem *</label>
+                        <textarea id="mensagem" name="message" rows="5" placeholder="Escreva sua mensagem..."
+                            required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn">Enviar</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>© 2026 André Luiz Guilarducci Pereira</p>
+    </footer>
+</body>
+
+</html>

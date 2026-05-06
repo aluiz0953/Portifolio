@@ -1,0 +1,424 @@
+/* =============================================
+   PORTFÓLIO - ANDRÉ LUIZ
+   CSS simples e direto, sem animações complexas
+   Paleta: verde escuro + cinza
+   ============================================= */
+
+/* Variáveis de cor para facilitar manutenção */
+:root {
+    --verde: #3a7d44;
+    --verde-claro: #d4edda;
+    --cinza-escuro: #2c2c2c;
+    --cinza-medio: #555555;
+    --cinza-claro: #f4f4f4;
+    --branco: #ffffff;
+    --borda: #cccccc;
+    --texto: #333333;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo da página */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--cinza-claro);
+    color: var(--texto);
+    line-height: 1.7;
+}
+
+/* Rolagem suave ao clicar nos links do menu */
+html {
+    scroll-behavior: smooth;
+}
+
+/* =============================================
+   TEMA ESCURO - Via JavaScript (.dark-mode)
+   ============================================= */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    --texto: #e0e0e0;
+    --cinza-claro: #1a1a1a;
+    --borda: #444444;
+    --branco: #2a2a2a;
+}
+
+body.dark-mode header {
+    background-color: #111111;
+}
+
+body.dark-mode .alt {
+    background-color: #222222;
+}
+
+body.dark-mode .card {
+    background-color: #2a2a2a;
+    border-color: #444444;
+}
+
+body.dark-mode input,
+body.dark-mode textarea {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444444;
+}
+
+body.dark-mode footer {
+    background-color: #111111;
+    color: #aaaaaa;
+}
+
+/* =============================================
+   CABEÇALHO E NAVEGAÇÃO
+   ============================================= */
+header {
+    background-color: var(--verde);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    max-width: 960px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Nome/logo no canto esquerdo */
+.logo {
+    color: var(--branco);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Lista de links do menu */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 6px;
+}
+
+.nav-links a {
+    color: var(--branco);
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+}
+
+/* Destaque ao passar o mouse */
+.nav-links a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Botão hambúrguer — escondido no desktop */
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--branco);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* =============================================
+   CONTAINER CENTRALIZADO
+   ============================================= */
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* =============================================
+   SEÇÕES
+   ============================================= */
+section {
+    padding: 60px 24px;
+}
+
+/* Fundo alternativo (cinza um pouco diferente) */
+section.alt {
+    background-color: #e8ebe9;
+}
+
+body.dark-mode section.alt {
+    background-color: #222222;
+}
+
+/* Títulos das seções */
+section h1 {
+    font-size: 2rem;
+    color: var(--verde);
+    margin-bottom: 8px;
+}
+
+section h2 {
+    font-size: 1.2rem;
+    color: var(--cinza-escuro);
+    margin-top: 28px;
+    margin-bottom: 12px;
+}
+
+body.dark-mode section h2 {
+    color: #cccccc;
+}
+
+/* Linha divisória */
+hr {
+    border: none;
+    border-top: 2px solid var(--verde);
+    margin-bottom: 24px;
+    width: 60px;
+}
+
+section p {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}
+
+/* =============================================
+   LISTA DE INFORMAÇÕES (sobre mim e contato)
+   ============================================= */
+.info-lista {
+    list-style: none;
+    margin: 16px 0 24px;
+}
+
+.info-lista li {
+    padding: 6px 0;
+    font-size: 0.95rem;
+    border-bottom: 1px solid var(--borda);
+}
+
+.info-lista a {
+    color: var(--verde);
+    text-decoration: underline;
+}
+
+/* =============================================
+   LISTA DE HABILIDADES
+   ============================================= */
+.habilidades {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.habilidades li {
+    background-color: var(--verde);
+    color: var(--branco);
+    padding: 5px 14px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* =============================================
+   CARDS (formação e portfólio)
+   ============================================= */
+.card {
+    background-color: var(--branco);
+    border: 1px solid var(--borda);
+    border-left: 4px solid var(--verde);
+    border-radius: 4px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+}
+
+.card h3 {
+    font-size: 1rem;
+    color: var(--cinza-escuro);
+    margin-bottom: 4px;
+}
+
+body.dark-mode .card h3 {
+    color: #dddddd;
+}
+
+/* Data/período em verde menor */
+.card .periodo {
+    font-size: 0.8rem;
+    color: var(--verde);
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+/* Tags de tecnologia */
+.card .tags {
+    font-size: 0.78rem;
+    color: var(--cinza-medio);
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+/* =============================================
+   GRADE DE PROJETOS
+   ============================================= */
+.projetos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.projetos .card {
+    display: flex;
+    flex-direction: column;
+}
+
+/* =============================================
+   BOTÃO
+   ============================================= */
+.btn {
+    display: inline-block;
+    background-color: var(--verde);
+    color: var(--branco);
+    padding: 8px 18px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #2d5f35;
+}
+
+/* =============================================
+   FORMULÁRIO DE CONTATO
+   ============================================= */
+form {
+    margin-top: 20px;
+    max-width: 520px;
+}
+
+/* Grupo de campo (label + input + erro) */
+.campo {
+    margin-bottom: 14px;
+}
+
+.campo label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--cinza-escuro);
+}
+
+body.dark-mode .campo label {
+    color: #cccccc;
+}
+
+.campo input,
+.campo textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background-color: var(--branco);
+    color: var(--texto);
+}
+
+.campo input:focus,
+.campo textarea:focus {
+    outline: none;
+    border-color: var(--verde);
+}
+
+/* Mensagem de erro (exibida pelo JavaScript) */
+.erro {
+    display: block;
+    color: #c0392b;
+    font-size: 0.78rem;
+    margin-top: 3px;
+    min-height: 1em;
+}
+
+/* =============================================
+   MENSAGEM DE SUCESSO (exibida pelo JavaScript)
+   ============================================= */
+.sucesso {
+    background-color: var(--verde-claro);
+    color: #1e4d2b;
+    border: 1px solid #b2d8ba;
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 0.92rem;
+    max-width: 520px;
+}
+
+/* =============================================
+   RODAPÉ
+   ============================================= */
+footer {
+    background-color: var(--cinza-escuro);
+    color: #aaaaaa;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.85rem;
+}
+
+/* =============================================
+   RESPONSIVIDADE — telas pequenas (mobile)
+   ============================================= */
+@media (max-width: 680px) {
+
+    /* Mostra o botão hambúrguer */
+    .hamburger {
+        display: block;
+    }
+
+    /* Esconde os links por padrão no mobile */
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: var(--verde);
+        padding: 8px 0;
+    }
+
+    /* Mostra o menu quando ativado via JavaScript */
+    .nav-links.ativo {
+        display: flex;
+    }
+
+    .nav-links a {
+        padding: 10px 16px;
+        display: block;
+        width: 100%;
+    }
+
+    /* Projetos em coluna única no mobile */
+    .projetos {
+        grid-template-columns: 1fr;
+    }
+
+    section h1 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 860px) and (min-width: 681px) {
+
+    /* Tablets: 2 colunas para projetos */
+    .projetos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
