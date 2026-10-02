@@ -67,7 +67,7 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 84px;
+    scroll-padding-top: 96px;
     -webkit-text-size-adjust: 100%;
 }
 
@@ -137,42 +137,51 @@ h3 {
     margin-inline: auto;
 }
 
-/* ---------- Topo / navegação ---------- */
+/* ---------- Topo / navegação ----------
+   Barra flutuante em duas pílulas (links à esquerda, ações à direita) e um painel de
+   projetos que abre no hover/foco, inspirados no Spartan AI e no Outerbase. */
 .topo {
-    position: sticky;
-    top: 0;
-    z-index: var(--z-topo);
-    background: color-mix(in srgb, var(--bg) 82%, transparent);
-    backdrop-filter: saturate(1.4) blur(14px);
-    -webkit-backdrop-filter: saturate(1.4) blur(14px);
-    border-bottom: 1px solid var(--line);
-}
-
-.topo::after {
-    content: '';
-    position: absolute;
+    position: fixed;
+    top: 12px;
     left: 0;
     right: 0;
-    bottom: -1px;
-    height: 2px;
-    background: var(--grad);
-    opacity: .85;
+    z-index: var(--z-topo);
+    pointer-events: none;
 }
 
 .navbar {
-    width: min(100% - 48px, var(--container));
+    position: relative;
+    width: min(100% - 32px, var(--container));
     margin-inline: auto;
-    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
+}
+
+.nav-pill,
+.nav-acoes {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    backdrop-filter: saturate(1.5) blur(16px);
+    -webkit-backdrop-filter: saturate(1.5) blur(16px);
+    box-shadow: var(--shadow);
+}
+
+.nav-pill {
+    gap: 6px;
 }
 
 .logo {
     display: inline-flex;
     align-items: center;
     gap: 10px;
+    padding-right: 10px;
     text-decoration: none;
     font-weight: 600;
     letter-spacing: -.01em;
@@ -181,9 +190,9 @@ h3 {
 .logo-marca {
     display: grid;
     place-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 9px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
     background: var(--grad);
     color: var(--accent-ink);
     font-size: .8rem;
@@ -193,13 +202,14 @@ h3 {
 
 .nav-links {
     display: flex;
-    gap: 4px;
-    margin-left: auto;
+    gap: 2px;
 }
 
 .nav-links a {
-    display: block;
-    padding: 7px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 15px;
     border-radius: 999px;
     text-decoration: none;
     font-size: .92rem;
@@ -208,7 +218,8 @@ h3 {
     transition: color .2s, background-color .2s;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.navbar[data-mega="aberto"] .nav-links a[data-mega] {
     color: var(--ink);
     background: var(--accent-soft);
 }
@@ -218,9 +229,23 @@ h3 {
     background: var(--accent-soft);
 }
 
+.nav-seta {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform .25s var(--ease);
+}
+
+.navbar[data-mega="aberto"] .nav-seta {
+    transform: rotate(180deg);
+}
+
 .nav-acoes {
-    display: flex;
-    gap: 8px;
+    gap: 6px;
 }
 
 .icon-btn {
@@ -228,20 +253,20 @@ h3 {
     place-items: center;
     width: 40px;
     height: 40px;
-    border-radius: 10px;
-    border: 1px solid var(--line);
-    background: var(--surface);
+    border-radius: 50%;
+    border: 1px solid transparent;
+    background: transparent;
     color: var(--ink);
     cursor: pointer;
-    transition: border-color .2s, transform .15s var(--ease), background-color .2s;
+    transition: background-color .2s, transform .15s var(--ease);
 }
 
 .icon-btn:hover {
-    border-color: var(--accent);
+    background: var(--accent-soft);
 }
 
 .icon-btn:active {
-    transform: scale(.96);
+    transform: scale(.94);
 }
 
 .icon-btn svg {
@@ -252,6 +277,226 @@ h3 {
     stroke-width: 1.8;
     stroke-linecap: round;
     stroke-linejoin: round;
+}
+
+/* Botão de ação: ícone em círculo de gradiente + rótulo, como o "Hire Team" do Spartan */
+.nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+    padding: 0 16px 0 4px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: .9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform .15s var(--ease), box-shadow .2s;
+}
+
+.nav-cta:hover {
+    box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--p4) 80%, transparent);
+}
+
+.nav-cta:active {
+    transform: scale(.97);
+}
+
+.nav-cta-ico {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--grad);
+    color: var(--accent-ink);
+}
+
+.nav-cta-ico svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform .25s var(--ease);
+}
+
+.nav-cta:hover .nav-cta-ico svg {
+    transform: translateX(2px);
+}
+
+/* Painel de projetos */
+.mega {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    width: min(100%, 1040px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, .95fr) minmax(0, .95fr);
+    gap: 10px;
+    padding: 10px;
+    border-radius: 24px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    box-shadow: 0 30px 80px -24px rgb(0 28 26 / .5);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(.985);
+    transform-origin: top center;
+    transition: opacity .22s var(--ease), transform .22s var(--ease), visibility 0s linear .22s;
+}
+
+.navbar[data-mega="aberto"] .mega {
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+}
+
+/* entrada escalonada dos itens (só transform e opacity) */
+.mega-item,
+.mega-card {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .3s var(--ease), transform .3s var(--ease), background-color .2s, border-color .2s;
+}
+
+.navbar[data-mega="aberto"] .mega-item,
+.navbar[data-mega="aberto"] .mega-card {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(var(--i, 0) * 45ms + 60ms);
+}
+
+.mega-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mega-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: var(--bg-alt);
+    border: 1px solid transparent;
+    text-decoration: none;
+}
+
+.mega-item:hover,
+.mega-item:focus-visible {
+    background: var(--accent-soft);
+    border-color: color-mix(in srgb, var(--p4) 45%, transparent);
+}
+
+/* ícone em azulejo, com um segundo "cartão" atrás, como no Outerbase */
+.mega-ico {
+    position: relative;
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--grad);
+    color: var(--accent-ink);
+}
+
+.mega-ico::before {
+    content: '';
+    position: absolute;
+    inset: 4px -5px -4px 5px;
+    z-index: -1;
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--p4) 35%, transparent);
+}
+
+.mega-ico svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.mega-txt {
+    display: grid;
+    gap: 2px;
+}
+
+.mega-txt strong {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.mega-txt small {
+    font-size: .86rem;
+    line-height: 1.4;
+    color: var(--muted);
+}
+
+.mega-card {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 340px;
+    overflow: hidden;
+    border-radius: 16px;
+    background: var(--bg-alt);
+    text-decoration: none;
+    color: #fff;
+}
+
+.mega-card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left top;
+    transition: transform .6s var(--ease);
+}
+
+.mega-card:hover img {
+    transform: scale(1.04);
+}
+
+.mega-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(4 22 20 / .92), rgb(4 22 20 / .15) 58%);
+}
+
+.mega-card-txt {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 2px;
+    padding: 18px;
+}
+
+.mega-card-txt strong {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.mega-card-txt small {
+    font-size: .88rem;
+    line-height: 1.4;
+    color: rgb(255 255 255 / .82);
 }
 
 .ico-sol {
@@ -315,7 +560,7 @@ h3 {
 /* ---------- Hero ---------- */
 .hero {
     position: relative;
-    padding: clamp(64px, 11vw, 132px) 0 clamp(56px, 8vw, 96px);
+    padding: clamp(104px, 12vw, 150px) 0 clamp(56px, 8vw, 96px);
     overflow: hidden;
     isolation: isolate;
 }
@@ -841,8 +1086,22 @@ section.alt {
     transition: transform .6s var(--ease);
 }
 
-.projeto:hover .capa>img:first-child {
+.projeto:hover .capa > img:not(.capa-celular) {
     transform: scale(1.03);
+}
+
+/* Prints no mesmo tema do site: cada imagem tem versão clara e escura, o CSS mostra a que combina.
+   Imagens sem data-tema (blog, que não tem tema escuro) aparecem nos dois temas. */
+img[data-tema="escuro"] {
+    display: none;
+}
+
+:root[data-theme="dark"] img[data-tema="claro"] {
+    display: none;
+}
+
+:root[data-theme="dark"] img[data-tema="escuro"] {
+    display: block;
 }
 
 /* Celular sobreposto à capa: sobe um pouco no hover */
@@ -855,8 +1114,8 @@ section.alt {
     right: 6%;
     bottom: 0;
     width: auto;
-    height: 84%;
-    aspect-ratio: 780 / 1688;
+    height: 90%;
+    aspect-ratio: 1080 / 2340;
     border: 3px solid color-mix(in srgb, var(--ink) 90%, transparent);
     border-bottom: 0;
     border-radius: 14px 14px 0 0;
@@ -1088,6 +1347,94 @@ form {
     color: var(--accent-strong);
 }
 
+/* ---------- Diálogo de capturas ---------- */
+.capturas {
+    width: min(1100px, 94vw);
+    max-height: 92vh;
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 30px 80px -20px rgb(0 20 18 / .55);
+    overflow: auto;
+}
+
+.capturas::backdrop {
+    background: rgb(3 18 16 / .72);
+    backdrop-filter: blur(4px);
+}
+
+.capturas-corpo {
+    padding: 20px 24px 28px;
+}
+
+.capturas-cab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.capturas-cab h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.capturas-grade {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.capturas figure img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+}
+
+/* o <form method="dialog"> não pode herdar o estilo do formulário de contato */
+.capturas-cab form {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    max-width: none;
+}
+
+.capturas .capturas-celular img {
+    /* largura calculada a partir da altura máxima (56vh), para não distorcer a proporção 1080:2340 */
+    width: min(100%, calc(56vh * 1080 / 2340));
+    height: auto;
+    margin-inline: auto;
+    border: 3px solid color-mix(in srgb, var(--ink) 90%, transparent);
+    border-radius: 22px;
+}
+
+.capturas figcaption {
+    margin-top: 10px;
+    font-family: var(--mono);
+    font-size: .76rem;
+    line-height: 1.5;
+    color: var(--muted);
+    text-align: center;
+}
+
+@media (max-width: 760px) {
+    .capturas-grade {
+        grid-template-columns: 1fr;
+    }
+
+    .capturas-corpo {
+        padding: 16px;
+    }
+}
+
 /* ---------- Entrada suave ao rolar ---------- */
 .js .reveal {
     opacity: 0;
@@ -1144,16 +1491,33 @@ form {
         display: grid;
     }
 
+    .nav-cta,
+    .mega,
+    .nav-seta {
+        display: none;
+    }
+
+    /* backdrop-filter faz da pílula a referência de posição dos filhos absolutos;
+       sem ele o menu aberto se alinha à barra inteira */
+    .nav-pill {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: var(--surface);
+    }
+
     .nav-links {
         position: absolute;
-        top: 64px;
+        top: calc(100% + 10px);
         left: 0;
         right: 0;
+        pointer-events: auto;
         flex-direction: column;
         gap: 0;
-        padding: 8px 16px 16px;
-        background: var(--bg);
-        border-bottom: 1px solid var(--line);
+        padding: 10px;
+        border-radius: 24px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        box-shadow: var(--shadow);
         display: none;
     }
 
@@ -1162,16 +1526,16 @@ form {
     }
 
     .nav-links a {
-        padding: 12px 14px;
-        border-radius: var(--radius-sm);
+        padding: 14px;
+        border-radius: 14px;
     }
 
-    .nav-acoes {
-        margin-left: auto;
+    .logo-nome {
+        display: none;
     }
 
-    .nav-links {
-        margin-left: 0;
+    .logo {
+        padding-right: 4px;
     }
 
     .projeto-corpo,

@@ -26,6 +26,40 @@ document.addEventListener("DOMContentLoaded", () => {
     navLinks.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 
+    // 2b. PAINEL DE PROJETOS: abre no hover e no foco do teclado, fecha com Esc, clique fora ou escolha.
+    //     O link "Projetos" continua sendo um link normal (leva a #projetos). Só em telas largas.
+    const navbar = document.querySelector('.navbar');
+    const gatilho = document.querySelector('[data-mega]');
+    const mega = document.getElementById('mega-projetos');
+    if (navbar && gatilho && mega) {
+        const larga = window.matchMedia('(min-width: 681px)');
+        let timer;
+        const abrir = () => {
+            if (!larga.matches) return;
+            clearTimeout(timer);
+            navbar.dataset.mega = 'aberto';
+            gatilho.setAttribute('aria-expanded', 'true');
+        };
+        const fechar = () => {
+            clearTimeout(timer);
+            delete navbar.dataset.mega;
+            gatilho.setAttribute('aria-expanded', 'false');
+        };
+        const fecharComAtraso = () => { clearTimeout(timer); timer = setTimeout(fechar, 140); };
+
+        [gatilho.parentElement, mega].forEach((el) => {
+            el.addEventListener('mouseenter', abrir);
+            el.addEventListener('mouseleave', fecharComAtraso);
+        });
+        gatilho.addEventListener('focus', abrir);
+        gatilho.addEventListener('click', fechar);
+        mega.addEventListener('click', (e) => { if (e.target.closest('a')) fechar(); });
+        navbar.addEventListener('focusout', (e) => { if (!navbar.contains(e.relatedTarget)) fechar(); });
+        document.querySelectorAll('.nav-links a:not([data-mega])').forEach((a) => a.addEventListener('focus', fechar));
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fechar(); });
+        document.addEventListener('pointerdown', (e) => { if (!navbar.contains(e.target)) fechar(); });
+    }
+
     // 3. LINK ATIVO NO MENU conforme a seção visível
     const secoes = document.querySelectorAll('main section[id]');
     const linksMenu = navLinks.querySelectorAll('a');
@@ -70,6 +104,30 @@ document.addEventListener("DOMContentLoaded", () => {
         const atualizar = () => { hora.textContent = fmt.format(new Date()); };
         atualizar();
         setInterval(atualizar, 15000);
+    }
+
+    // 4d. CAPTURAS EM TAMANHO GRANDE: o diálogo é preenchido com as imagens do cartão clicado
+    const dlg = document.getElementById('dlg-capturas');
+    if (dlg) {
+        document.querySelectorAll('.js-capturas').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                // só as imagens visíveis, ou seja, as do tema atual
+                const visiveis = [...btn.closest('.projeto').querySelectorAll('.capa img')].filter((i) => i.offsetParent !== null);
+                const desk = visiveis.find((i) => !i.classList.contains('capa-celular'));
+                const cel = visiveis.find((i) => i.classList.contains('capa-celular'));
+                document.getElementById('cap-titulo').textContent = btn.dataset.titulo;
+                [['cap-desk', desk, 'cap-leg-desk', btn.dataset.legDesk], ['cap-cel', cel, 'cap-leg-cel', btn.dataset.legCel]]
+                    .forEach(([imgId, origem, legId, legenda]) => {
+                        const img = document.getElementById(imgId);
+                        img.src = origem.currentSrc || origem.src;
+                        img.alt = origem.alt;
+                        document.getElementById(legId).textContent = legenda;
+                    });
+                dlg.showModal();
+            });
+        });
+        // clique fora do conteúdo (no fundo escurecido) fecha
+        dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
     }
 
     // 5. FORMULÁRIO DE CONTATO
