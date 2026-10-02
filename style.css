@@ -476,6 +476,10 @@ h3 {
     color: var(--muted);
 }
 
+.tile-uninter .tile-titulo {
+    margin-top: auto;
+}
+
 .tile-hora-valor {
     font-family: var(--mono);
     font-size: clamp(2rem, 3.4vw, 2.6rem);
@@ -773,33 +777,6 @@ section.alt {
 
 .projeto:hover .capa img {
     transform: scale(1.03);
-}
-
-/* Capa tipográfica para projetos sem captura de tela */
-.capa-tipo {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 6px;
-    padding: 24px 28px;
-    background:
-        radial-gradient(80% 120% at 100% 0%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 65%),
-        var(--accent-soft);
-}
-
-.capa-tipo-nome {
-    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
-    font-weight: 700;
-    letter-spacing: -.035em;
-    line-height: 1;
-    color: var(--accent-strong);
-}
-
-.capa-tipo-stack {
-    font-family: var(--mono);
-    font-size: .78rem;
-    color: var(--muted);
 }
 
 .projeto-corpo {
