@@ -5,18 +5,29 @@
    ============================================= */
 
 :root {
-    --bg: #f6f8f6;
-    --bg-alt: #edf1ee;
+    /* Paleta: #53B78F #34CBAD #59DACE #26CAC6 #3AC7DA #2CD8FF.
+       Os tons são claros demais para texto sobre branco: viram preenchimento e brilho.
+       Texto e links usam --accent-strong, um verde-azulado escuro derivado da paleta. */
+    --p1: #53B78F;
+    --p2: #34CBAD;
+    --p3: #59DACE;
+    --p4: #26CAC6;
+    --p5: #3AC7DA;
+    --p6: #2CD8FF;
+    --grad: linear-gradient(115deg, var(--p1), var(--p2) 28%, var(--p4) 52%, var(--p5) 76%, var(--p6));
+
+    --bg: #f4f9f8;
+    --bg-alt: #e8f2f0;
     --surface: #ffffff;
-    --ink: #16201a;
-    --muted: #55625a;
-    --line: #dce3de;
-    --accent: #2f7d46;
-    --accent-strong: #256338;
-    --accent-ink: #ffffff;
-    --accent-soft: #e4f1e8;
+    --ink: #0e1f1e;
+    --muted: #4c6562;
+    --line: #d5e6e3;
+    --accent: var(--p2);
+    --accent-strong: #0b6a60;
+    --accent-ink: #052421;
+    --accent-soft: #e0f6f2;
     --danger: #b3342a;
-    --shadow: 0 1px 2px rgb(22 40 28 / .06), 0 8px 24px -12px rgb(22 40 28 / .18);
+    --shadow: 0 1px 2px rgb(8 48 44 / .06), 0 8px 24px -12px rgb(8 48 44 / .2);
 
     --font: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
     --mono: 'Geist Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
@@ -30,16 +41,16 @@
 }
 
 :root[data-theme="dark"] {
-    --bg: #0d1210;
-    --bg-alt: #111815;
-    --surface: #151d19;
-    --ink: #e8eee9;
-    --muted: #9aa8a0;
-    --line: #25322b;
-    --accent: #5dbf7d;
-    --accent-strong: #7bd096;
-    --accent-ink: #08160d;
-    --accent-soft: #162a1e;
+    --bg: #091514;
+    --bg-alt: #0c1b1a;
+    --surface: #102120;
+    --ink: #e6f3f1;
+    --muted: #93b0ac;
+    --line: #1f3836;
+    --accent: var(--p3);
+    --accent-strong: #7fe8de;
+    --accent-ink: #04201d;
+    --accent-soft: #11302d;
     --danger: #f08a80;
     --shadow: 0 1px 2px rgb(0 0 0 / .4), 0 12px 28px -14px rgb(0 0 0 / .6);
     color-scheme: dark;
@@ -98,7 +109,7 @@ h3 {
 }
 
 :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--accent-strong);
     outline-offset: 3px;
     border-radius: 4px;
 }
@@ -137,6 +148,17 @@ h3 {
     border-bottom: 1px solid var(--line);
 }
 
+.topo::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--grad);
+    opacity: .85;
+}
+
 .navbar {
     width: min(100% - 48px, var(--container));
     margin-inline: auto;
@@ -162,7 +184,7 @@ h3 {
     width: 32px;
     height: 32px;
     border-radius: 9px;
-    background: var(--accent);
+    background: var(--grad);
     color: var(--accent-ink);
     font-size: .8rem;
     font-weight: 700;
@@ -270,12 +292,13 @@ h3 {
 }
 
 .btn-primario {
-    background: var(--accent);
+    background: var(--grad);
     color: var(--accent-ink);
 }
 
 .btn-primario:hover {
-    background: var(--accent-strong);
+    filter: brightness(1.06) saturate(1.1);
+    box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--p4) 70%, transparent);
 }
 
 .btn-ghost {
@@ -304,7 +327,8 @@ h3 {
     inset: 0;
     z-index: -1;
     background:
-        radial-gradient(60% 70% at 85% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
+        radial-gradient(60% 70% at 85% 0%, color-mix(in srgb, var(--p6) 20%, transparent), transparent 70%),
+        radial-gradient(50% 60% at 0% 100%, color-mix(in srgb, var(--p1) 16%, transparent), transparent 70%),
         linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 56px 56px,
         linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 56px 56px;
     -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 100%);
@@ -520,7 +544,7 @@ h3 {
 }
 
 .lede mark {
-    background: linear-gradient(transparent 58%, color-mix(in srgb, var(--accent) 30%, transparent) 58%);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--p1) 38%, transparent), color-mix(in srgb, var(--p6) 38%, transparent)) 0 88% / 100% 42% no-repeat;
     color: inherit;
     padding: 0 2px;
 }
