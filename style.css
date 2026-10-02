@@ -775,8 +775,32 @@ section.alt {
     transition: transform .6s var(--ease);
 }
 
-.projeto:hover .capa img {
+.projeto:hover .capa>img:first-child {
     transform: scale(1.03);
+}
+
+/* Celular sobreposto à capa: sobe um pouco no hover */
+.capa {
+    position: relative;
+}
+
+.capa .capa-celular {
+    position: absolute;
+    right: 6%;
+    bottom: 0;
+    width: auto;
+    height: 84%;
+    aspect-ratio: 780 / 1688;
+    border: 3px solid color-mix(in srgb, var(--ink) 90%, transparent);
+    border-bottom: 0;
+    border-radius: 14px 14px 0 0;
+    object-position: top;
+    box-shadow: 0 10px 30px -8px rgb(10 25 15 / .45);
+    transition: transform .5s var(--ease);
+}
+
+.projeto:hover .capa .capa-celular {
+    transform: translateY(-8px);
 }
 
 .projeto-corpo {
@@ -835,7 +859,7 @@ section.alt {
     letter-spacing: -.03em;
     line-height: 1.15;
     color: var(--accent-strong);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
 }
 
 .numeros span {
@@ -1086,6 +1110,14 @@ form {
     .projeto-corpo,
     form {
         padding-inline: 20px;
+    }
+
+    .numeros li {
+        padding: 10px;
+    }
+
+    .numeros strong {
+        font-size: 1rem;
     }
 
     .tile-agora,
