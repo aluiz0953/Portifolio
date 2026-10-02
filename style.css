@@ -430,6 +430,20 @@ h3 {
     opacity: 1;
 }
 
+.tile-nome::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(55% 60% at 100% 0%, color-mix(in srgb, var(--p6) 24%, transparent), transparent 70%),
+        radial-gradient(50% 55% at 0% 100%, color-mix(in srgb, var(--p1) 20%, transparent), transparent 70%);
+}
+
+.tile-nome > * {
+    position: relative;
+}
+
 .tile-nome {
     grid-column: span 8;
     grid-row: span 2;
@@ -522,7 +536,18 @@ h3 {
 }
 
 .tile-num {
-    background: var(--accent-soft);
+    background: var(--grad);
+    border-color: transparent;
+    color: var(--accent-ink);
+}
+
+.tile-num .tile-rotulo,
+.tile-num .seta {
+    color: color-mix(in srgb, var(--accent-ink) 78%, transparent);
+}
+
+.tile-num .tile-numero {
+    color: var(--accent-ink);
 }
 
 .seta {
@@ -555,7 +580,10 @@ section {
 }
 
 section.alt {
-    background: var(--bg-alt);
+    background:
+        radial-gradient(70% 90% at 100% 0%, color-mix(in srgb, var(--p6) 11%, transparent), transparent 70%),
+        radial-gradient(60% 80% at 0% 100%, color-mix(in srgb, var(--p1) 10%, transparent), transparent 70%),
+        var(--bg-alt);
     border-block: 1px solid var(--line);
 }
 
@@ -569,7 +597,10 @@ section.alt {
 .secao-num {
     font-family: var(--mono);
     font-size: .85rem;
-    color: var(--accent-strong);
+    color: var(--accent-ink);
+    background: var(--grad);
+    padding: 2px 8px;
+    border-radius: 6px;
 }
 
 .secao-cab h2 {
@@ -687,7 +718,7 @@ section.alt {
     top: 8px;
     bottom: 8px;
     width: 2px;
-    background: var(--line);
+    background: linear-gradient(var(--p1), var(--p4) 55%, var(--p6));
 }
 
 .linha-tempo li {
@@ -777,6 +808,17 @@ section.alt {
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: transform .3s var(--ease), border-color .3s;
+}
+
+.projeto::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--grad);
+    z-index: 1;
 }
 
 .projeto:hover {
@@ -1024,7 +1066,8 @@ form {
 /* ---------- Rodapé ---------- */
 .rodape {
     padding: 28px 0;
-    border-top: 1px solid var(--line);
+    border-top: 3px solid transparent;
+    border-image: var(--grad) 1;
     font-size: .88rem;
     color: var(--muted);
 }
