@@ -42,20 +42,20 @@
 }
 
 :root[data-theme="dark"] {
-    --grad: linear-gradient(115deg, #a2acff, #8d99ff 50%, #7380f0);
-    --on-grad: #0F124A;
-    --bg: #0F124A;
-    --bg-alt: #0b0e3b;
-    --surface: #151a63;
-    --ink: #eceeff;
-    --muted: #a3a9d6;
-    --line: #2a3084;
-    --accent: #8d99ff;
-    --accent-strong: #b3bbff;
-    --accent-ink: #0F124A;
-    --accent-soft: #1d2377;
+    /* preto (cinza sombra #181820 e tons abaixo dele) com o azul Klein: botões e gradientes
+       em #1F2B96 com texto branco; links e números num azul mais claro, legível sobre o preto */
+    --bg: #0b0b10;
+    --bg-alt: #101016;
+    --surface: #181820;
+    --ink: #ececf3;
+    --muted: #a0a3b8;
+    --line: #2a2b3a;
+    --accent: #7d8bff;
+    --accent-strong: #a9b3ff;
+    --accent-ink: #0b0b10;
+    --accent-soft: #1a1d3d;
     --danger: #f08a80;
-    --shadow: 0 1px 2px rgb(0 0 0 / .4), 0 12px 28px -14px rgb(0 0 0 / .6);
+    --shadow: 0 1px 2px rgb(0 0 0 / .5), 0 12px 28px -14px rgb(0 0 0 / .7);
     color-scheme: dark;
 }
 
@@ -842,6 +842,102 @@ section.alt::before {
     background: linear-gradient(90deg, color-mix(in srgb, var(--p1) 38%, transparent), color-mix(in srgb, var(--p4) 38%, transparent)) 0 88% / 100% 42% no-repeat;
     color: inherit;
     padding: 0 2px;
+}
+
+/* ---------- Efeitos do início ---------- */
+/* Ondas animadas (canvas WebGL criado pelo script.js); com ele, o ondas.svg estático sai */
+.ondas-vivas {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.hero.tem-ondas::after,
+section.alt.tem-ondas::before {
+    display: none;
+}
+
+/* Letras que sobem: o script.js separa o texto e liga .split-ativo quando o título aparece */
+.sp-w {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.sp-c {
+    display: inline-block;
+}
+
+.split .sp-c {
+    opacity: 0;
+    transform: translateY(.45em);
+}
+
+.split.split-ativo .sp-c {
+    opacity: 1;
+    transform: none;
+    transition: opacity .5s var(--ease), transform .7s var(--ease);
+    transition-delay: calc(var(--sp-base, 0ms) + var(--ci) * 28ms);
+}
+
+.hero h1 {
+    --sp-base: 260ms;
+}
+
+/* Blocos do início: borda que acende perto do cursor e onda de luz no clique */
+.tile > .tile-borda,
+.tile > .tile-onda {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    padding: 2.5px;
+    border-radius: inherit;
+    pointer-events: none;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+.tile > .tile-borda {
+    background: radial-gradient(340px circle at var(--mx, -999px) var(--my, -999px),
+            var(--accent), var(--accent) 22%, color-mix(in srgb, var(--accent) 55%, transparent) 50%, transparent 78%);
+    opacity: 0;
+    transition: opacity .35s var(--ease);
+}
+
+.bento.perto .tile > .tile-borda {
+    opacity: 1;
+}
+
+.tile > .tile-onda {
+    padding: 3.5px;
+    background: radial-gradient(circle at var(--wx, -999px) var(--wy, -999px),
+            transparent calc(var(--wr, 0px) - 150px),
+            var(--accent) calc(var(--wr, 0px) - 10px),
+            transparent var(--wr, 0px));
+    opacity: var(--wa, 0);
+}
+
+/* brilho da onda dentro do bloco (sem máscara: atravessa o conteúdo como uma faixa de luz) */
+.tile > .tile-onda-luz {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(circle at var(--wx, -999px) var(--wy, -999px),
+            transparent calc(var(--wr, 0px) - 220px),
+            color-mix(in srgb, var(--accent) 22%, transparent) calc(var(--wr, 0px) - 20px),
+            transparent var(--wr, 0px));
+    opacity: var(--wa, 0);
+}
+
+/* luz dentro do bloco: mais nítida, seguindo o mesmo cursor */
+.tile::after {
+    background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%),
+            color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%);
 }
 
 /* ---------- Seções ---------- */
