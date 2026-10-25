@@ -592,6 +592,8 @@ html:not(.js) .nav-links a.ativo {
    O início é sempre escuro, nos dois temas: o texto fica sobre o vídeo. */
 .hero {
     position: relative;
+    /* o início é um <section>, mas não usa o espaçamento grande das outras seções */
+    padding: 0;
     min-height: 100svh;
     display: grid;
     place-items: center;
