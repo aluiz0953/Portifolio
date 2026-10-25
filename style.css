@@ -1953,26 +1953,3 @@ form {
         padding: 19px 46px;
     }
 }
-
-/* ---------- Movimento reduzido ---------- */
-@media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        transition-duration: .01ms !important;
-        animation-duration: .01ms !important;
-    }
-
-    .js .reveal {
-        opacity: 1;
-        transform: none;
-    }
-
-    .faixa-trilho {
-        animation: none;
-    }
-}

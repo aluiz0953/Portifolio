@@ -2,7 +2,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     const root = document.documentElement;
-    const calmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // 1. TEMA (claro/escuro). A classe inicial já foi aplicada no <head>.
     const themeToggle = document.getElementById('theme-toggle');
@@ -72,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const moverIndicador = (instantaneo) => {
         const ativo = navLinks.querySelector('a.ativo');
-        const anima = window.gsap && !calmo && !instantaneo;
+        const anima = window.gsap && !instantaneo;
         if (!ativo || !menuLargo.matches) {
             if (anima) gsap.to(indicador, { opacity: 0, duration: .25 });
             else indicador.style.opacity = 0;
@@ -223,15 +222,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // 6. ANIMAÇÕES COM GSAP: entrada do início, saída ao rolar e títulos letra a letra.
-    //    Com movimento reduzido tudo aparece direto. Se o GSAP não carregar, o conteúdo
+    //    As animações rodam sempre, mesmo com "reduzir movimento" ativo no sistema. Se o GSAP não carregar, o conteúdo
     //    aparece mesmo assim (e o CSS ainda revela o início depois de 2,5 s).
     const hero = document.querySelector('.hero');
     const entram = hero ? [...hero.querySelectorAll('[data-in]')] : [];
     const mostrar = () => entram.forEach((el) => { el.style.visibility = 'visible'; });
 
-    // vídeo do início: só toca com a seção na tela e sem movimento reduzido (senão fica a imagem de capa)
+    // vídeo do início: só toca com a seção na tela
     const video = hero && hero.querySelector('.hero-video');
-    if (video && !calmo && 'IntersectionObserver' in window) {
+    if (video && 'IntersectionObserver' in window) {
         new IntersectionObserver(([e]) => {
             if (e.isIntersecting) video.play().catch(() => { });
             else video.pause();
@@ -242,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
         gsap.registerPlugin(ScrollTrigger, SplitText);
         const mm = gsap.matchMedia();
 
-        mm.add('(prefers-reduced-motion: no-preference)', () => {
+        mm.add('all', () => {
             mostrar();
             const conteudo = hero.querySelector('.hero-conteudo');
             const rodape = hero.querySelector('.hero-rodape');
@@ -280,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, hero);
 
         // desktop: os projetos se empilham; o cartão de trás diminui e escurece quando o próximo sobe
-        mm.add('(prefers-reduced-motion: no-preference) and (min-width: 861px)', () => {
+        mm.add('(min-width: 861px)', () => {
             cartoes.slice(0, -1).forEach((c, i) => {
                 const proximo = cartoes[i + 1];
                 const cobre = {
@@ -293,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         // celular: sem pilha; a capa escurece e some aos poucos quando sai pelo topo
-        mm.add('(prefers-reduced-motion: no-preference) and (max-width: 860px)', () => {
+        mm.add('(max-width: 860px)', () => {
             cartoes.forEach((c) => {
                 gsap.to(c.querySelector('.capa'), {
                     opacity: .2, ease: 'none',
@@ -302,14 +301,13 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        mm.add('(prefers-reduced-motion: reduce)', mostrar);
     } else {
         mostrar();
     }
 
     // 7. ONDAS ANIMADAS NO FUNDO DAS SEÇÕES ALTERNADAS (WebGL, sem biblioteca).
     //    Reagem ao cursor, param quando a seção sai da tela e viram um quadro parado com
-    //    movimento reduzido. Sem WebGL, o ondas.svg estático continua no lugar.
+    //    Sem WebGL, o ondas.svg estático continua no lugar.
     const FRAG = `
         #extension GL_OES_standard_derivatives : enable
         precision highp float;
@@ -396,21 +394,21 @@ document.addEventListener("DOMContentLoaded", () => {
             mx += (alvoX - mx) * 0.06;
             my += (alvoY - my) * 0.06;
             mouseOn += (alvoOn - mouseOn) * 0.05;
-            gl.uniform1f(u.uTempo, calmo ? 8 : agora / 1000);
+            gl.uniform1f(u.uTempo, agora / 1000);
             gl.uniform2f(u.uMouse, mx, my);
-            gl.uniform1f(u.uMouseOn, calmo ? 0 : mouseOn);
+            gl.uniform1f(u.uMouseOn, mouseOn);
             gl.clearColor(0, 0, 0, 0);
             gl.clear(gl.COLOR_BUFFER_BIT);
             gl.drawArrays(gl.TRIANGLES, 0, 3);
-            raf = rodando && !calmo ? requestAnimationFrame(desenhar) : 0;
+            raf = rodando ? requestAnimationFrame(desenhar) : 0;
         };
         const ligar = (sim) => {
             rodando = sim;
             if (sim && !raf) raf = requestAnimationFrame(desenhar);
         };
 
-        new ResizeObserver(() => { medir(); if (!rodando || calmo) desenhar(performance.now()); }).observe(secao);
-        new MutationObserver(() => { lerTema(); if (!rodando || calmo) desenhar(performance.now()); })
+        new ResizeObserver(() => { medir(); if (!rodando) desenhar(performance.now()); }).observe(secao);
+        new MutationObserver(() => { lerTema(); if (!rodando) desenhar(performance.now()); })
             .observe(root, { attributes: true, attributeFilter: ['data-theme'] });
         new IntersectionObserver(([e]) => ligar(e.isIntersecting)).observe(secao);
     };
