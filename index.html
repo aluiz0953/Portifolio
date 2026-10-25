@@ -23,8 +23,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
-    <link rel="stylesheet" href="style.css?v=21">
+        href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap">
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap">
+    <link rel="stylesheet" href="style.css?v=29">
 
     <!-- Aplica o tema antes da pintura para evitar flash -->
     <script>
@@ -37,7 +39,10 @@
             } catch (e) { }
         })();
     </script>
-    <script src="script.js?v=21" defer></script>
+    <script src="vendor/gsap.min.js?v=3.15.0" defer></script>
+    <script src="vendor/ScrollTrigger.min.js?v=3.15.0" defer></script>
+    <script src="vendor/SplitText.min.js?v=3.15.0" defer></script>
+    <script src="script.js?v=29" defer></script>
 </head>
 
 <body>
@@ -109,7 +114,15 @@
                         <span class="mega-txt"><strong>MediConsulta</strong>
                             <small>Agenda médica com quatro perfis de acesso</small></span>
                     </a>
-                    <a class="mega-item" href="#projeto-blog" style="--i:2">
+                    <a class="mega-item" href="#projeto-sessao" style="--i:2">
+                        <span class="mega-ico"><svg viewBox="0 0 24 24" aria-hidden="true">
+                                <rect x="3" y="4" width="18" height="14" rx="2.5" />
+                                <path d="M3 8.5h18M8 21h8M12 18v3" />
+                            </svg></span>
+                        <span class="mega-txt"><strong>Sites de demonstração</strong>
+                            <small>Cinema, imóveis, advocacia e Site Fast</small></span>
+                    </a>
+                    <a class="mega-item" href="#projeto-blog" style="--i:3">
                         <span class="mega-ico"><svg viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2V4Z" />
                                 <path d="M18 8h2a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2M8 8h6M8 12h6M8 16h4" />
@@ -117,22 +130,22 @@
                         <span class="mega-txt"><strong>Blog TecnoLógica</strong>
                             <small>Notícias de tecnologia em uma página</small></span>
                     </a>
-                    <a class="mega-item" href="#projeto-portfolio" style="--i:3">
+                    <a class="mega-item" href="#projeto-portfolio" style="--i:4">
                         <span class="mega-ico"><svg viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 6l-3 12" />
                             </svg></span>
                         <span class="mega-txt"><strong>Este portfólio</strong>
-                            <small>HTML, CSS e JavaScript, sem bibliotecas</small></span>
+                            <small>HTML, CSS e JavaScript, sem framework</small></span>
                     </a>
                 </div>
 
-                <a class="mega-card" href="#projeto-estoque" style="--i:4">
+                <a class="mega-card" href="#projeto-estoque" style="--i:5">
                     <img data-tema="claro" src="./captura-estoque.webp?v=8" width="1440" height="810" loading="lazy" alt="">
                     <img data-tema="escuro" src="./captura-estoque-escuro.webp?v=8" width="1440" height="810" loading="lazy" alt="">
                     <span class="mega-card-txt"><strong>App de Estoque</strong>
                         <small>Web e mobile para uma perfumaria</small></span>
                 </a>
-                <a class="mega-card" href="#projeto-mediconsulta" style="--i:5">
+                <a class="mega-card" href="#projeto-mediconsulta" style="--i:6">
                     <img data-tema="claro" src="./captura-mediconsulta-agenda.webp?v=8" width="1440" height="810" loading="lazy" alt="">
                     <img data-tema="escuro" src="./captura-mediconsulta-agenda-escuro.webp?v=8" width="1440" height="810" loading="lazy" alt="">
                     <span class="mega-card-txt"><strong>MediConsulta</strong>
@@ -146,61 +159,62 @@
 
         <!-- ===== INÍCIO ===== -->
         <section class="hero" id="inicio">
-            <div class="container bento">
-                <div class="tile tile-nome" style="--i:0">
-                    <p class="eyebrow">Ciências da Computação · Uninter</p>
-                    <h1>André Luiz Guilarducci Pereira</h1>
-                    <p class="lede">
-                        Estudante em Juiz de Fora/MG. Construo projetos de
-                        <mark>desenvolvimento web</mark> e estudo sistemas de dados e servidores em nuvem.
-                    </p>
-                    <div class="hero-cta">
-                        <a class="btn btn-primario" href="#projetos">Ver projetos</a>
-                        <a class="btn btn-ghost" href="#contato">Falar comigo</a>
+            <video class="hero-video" muted loop playsinline preload="metadata" poster="video/hero-poster.webp"
+                aria-hidden="true">
+                <source src="video/hero.webm" type="video/webm">
+                <source src="video/hero.mp4" type="video/mp4">
+            </video>
+            <div class="hero-veu" aria-hidden="true"></div>
+
+            <div class="hero-conteudo">
+                <div class="hero-marca" data-in>
+                    <span class="hero-marca-titulo">Portfólio</span>
+                    <span class="hero-marca-sub">Ciências da Computação · Uninter</span>
+                </div>
+
+                <h1 data-in><span class="hero-h1-a">André Luiz</span> <span class="hero-h1-b">Guilarducci Pereira</span></h1>
+
+                <p class="hero-sub" data-in>
+                    Estudante em Juiz de Fora/MG. Construo projetos de desenvolvimento web e estudo sistemas
+                    de dados e servidores em nuvem.
+                </p>
+
+                <a class="btn-oval" href="#projetos" data-in>Ver projetos</a>
+            </div>
+
+            <div class="hero-rodape" data-in>
+                <div class="hero-rodape-lado">
+                    <div class="hero-redes">
+                        <a href="https://github.com/aluiz0953" target="_blank" rel="noopener" aria-label="GitHub">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.37-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.04 1.03-2.76-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.64 1.03 2.76 0 3.94-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z" /></svg></a>
+                        <a href="https://www.linkedin.com/in/andr%C3%A9-luiz-guilarducci-pereira-925930440/" target="_blank"
+                            rel="noopener" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 9H7v11H4.5zM5.75 4a1.6 1.6 0 100 3.2 1.6 1.6 0 000-3.2zM9.5 9H12v1.6c.4-.8 1.6-1.7 3.2-1.7 2.6 0 3.3 1.6 3.3 4.2V20H16v-4.9c0-1.3-.5-2.1-1.6-2.1S12.5 13.8 12.5 15V20H9.5z" /></svg></a>
+                        <a href="mailto:aluiz0953@gmail.com" aria-label="E-mail">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.4l8 5.1 8-5.1V7H4Zm16 2.8-7.46 4.75a1 1 0 0 1-1.08 0L4 9.8V17h16V9.8Z" /></svg></a>
                     </div>
+                    <a class="hero-link" href="#contato">Falar comigo</a>
                 </div>
 
-                <div class="tile tile-agora" style="--i:1">
-                    <p class="tile-rotulo"><span class="ponto" aria-hidden="true"></span>Estudando agora</p>
-                    <ul class="tile-lista">
-                        <li>Desenvolvimento web</li>
-                        <li>Sistemas de dados</li>
-                        <li>Servidores em nuvem</li>
-                    </ul>
-                </div>
+                <p class="hero-rolar" aria-hidden="true"><strong>Role</strong> para navegar</p>
 
-                <div class="tile tile-uninter" style="--i:2">
-                    <p class="tile-rotulo">Formação</p>
-                    <p class="tile-titulo">Ciências da Computação</p>
-                    <p class="tile-sub">Uninter · 2025 – cursando</p>
-                </div>
-
-                <a class="tile tile-link" href="https://github.com/aluiz0953" target="_blank" rel="noopener"
-                    style="--i:3">
-                    <p class="tile-rotulo">GitHub</p>
-                    <p class="tile-titulo">aluiz0953</p>
-                    <span class="seta" aria-hidden="true">↗</span>
-                </a>
-
-                <div class="tile tile-hora" style="--i:4">
-                    <p class="tile-rotulo">Santos Dumont, MG</p>
-                    <p class="tile-hora-valor" id="hora-local" aria-label="Hora local">--:--</p>
-                    <p class="tile-sub">Horário de Brasília</p>
-                </div>
-
-                <a class="tile tile-link tile-num" href="#projetos" style="--i:5">
-                    <p class="tile-rotulo">Projetos publicados</p>
-                    <p class="tile-numero">4</p>
-                    <span class="seta" aria-hidden="true">↓</span>
-                </a>
+                <p class="hero-rodape-lado">
+                    <span>Santos Dumont, MG</span>
+                    <span class="hero-hora" id="hora-local" aria-label="Hora local em Santos Dumont">--:--</span>
+                </p>
             </div>
         </section>
+
+        <!-- ===== FAIXA DE TECNOLOGIAS ===== -->
+        <div class="faixa" role="region" aria-label="Tecnologias e áreas dos projetos">
+            <div class="faixa-linha"><div class="faixa-trilho"><div class="faixa-grupo"><span>Java</span><span class="faixa-sep" aria-hidden="true"></span><span>Spring Boot</span><span class="faixa-sep" aria-hidden="true"></span><span>React</span><span class="faixa-sep" aria-hidden="true"></span><span>React Native</span><span class="faixa-sep" aria-hidden="true"></span><span>TypeScript</span><span class="faixa-sep" aria-hidden="true"></span><span>JavaScript</span><span class="faixa-sep" aria-hidden="true"></span><span>HTML</span><span class="faixa-sep" aria-hidden="true"></span><span>CSS</span><span class="faixa-sep" aria-hidden="true"></span><span>MySQL</span><span class="faixa-sep" aria-hidden="true"></span><span>PostgreSQL</span><span class="faixa-sep" aria-hidden="true"></span><span>GSAP</span><span class="faixa-sep" aria-hidden="true"></span><span>WebGL</span><span class="faixa-sep" aria-hidden="true"></span></div><div class="faixa-grupo" aria-hidden="true"><span>Java</span><span class="faixa-sep" aria-hidden="true"></span><span>Spring Boot</span><span class="faixa-sep" aria-hidden="true"></span><span>React</span><span class="faixa-sep" aria-hidden="true"></span><span>React Native</span><span class="faixa-sep" aria-hidden="true"></span><span>TypeScript</span><span class="faixa-sep" aria-hidden="true"></span><span>JavaScript</span><span class="faixa-sep" aria-hidden="true"></span><span>HTML</span><span class="faixa-sep" aria-hidden="true"></span><span>CSS</span><span class="faixa-sep" aria-hidden="true"></span><span>MySQL</span><span class="faixa-sep" aria-hidden="true"></span><span>PostgreSQL</span><span class="faixa-sep" aria-hidden="true"></span><span>GSAP</span><span class="faixa-sep" aria-hidden="true"></span><span>WebGL</span><span class="faixa-sep" aria-hidden="true"></span></div></div></div>
+            <div class="faixa-linha faixa-linha--volta"><div class="faixa-trilho"><div class="faixa-grupo"><span>Desenvolvimento web</span><span class="faixa-sep" aria-hidden="true"></span><span>Sistemas de dados</span><span class="faixa-sep" aria-hidden="true"></span><span>Servidores em nuvem</span><span class="faixa-sep" aria-hidden="true"></span><span>Redes de computadores</span><span class="faixa-sep" aria-hidden="true"></span><span>Manutenção de computadores</span><span class="faixa-sep" aria-hidden="true"></span></div><div class="faixa-grupo" aria-hidden="true"><span>Desenvolvimento web</span><span class="faixa-sep" aria-hidden="true"></span><span>Sistemas de dados</span><span class="faixa-sep" aria-hidden="true"></span><span>Servidores em nuvem</span><span class="faixa-sep" aria-hidden="true"></span><span>Redes de computadores</span><span class="faixa-sep" aria-hidden="true"></span><span>Manutenção de computadores</span><span class="faixa-sep" aria-hidden="true"></span></div></div></div>
+        </div>
 
         <!-- ===== SOBRE ===== -->
         <section id="sobre">
             <div class="container">
                 <header class="secao-cab">
-                    <p class="secao-num">01</p>
                     <h2>Sobre mim</h2>
                 </header>
 
@@ -214,20 +228,6 @@
                         <p>
                             Fora da tela, curto games, música e testar tecnologias novas.
                         </p>
-
-                        <h3 class="subtitulo">Habilidades</h3>
-                        <ul class="chips">
-                            <li>Manutenção e reparo de computadores</li>
-                            <li>Redes de computadores</li>
-                            <li>Programação (base)</li>
-                        </ul>
-
-                        <h3 class="subtitulo">Em aprendizado</h3>
-                        <ul class="chips chips-suave">
-                            <li>Desenvolvimento web</li>
-                            <li>Sistemas de dados</li>
-                            <li>Servidores em nuvem</li>
-                        </ul>
                     </div>
 
                     <dl class="ficha">
@@ -253,6 +253,34 @@
                         </div>
                     </dl>
                 </div>
+
+                <h3 class="acordeao-titulo">O que faço e o que estudo</h3>
+                <ul class="acordeao reveal">
+                    <li class="fatia aberta" tabindex="0">
+                        <span class="fatia-titulo">Desenvolvimento web</span>
+                        <span class="fatia-corpo"><span class="fatia-status">Em aprendizado</span><span class="fatia-onde">Nos quatro projetos desta página.</span></span>
+                    </li>
+                    <li class="fatia" tabindex="0">
+                        <span class="fatia-titulo">Sistemas de dados</span>
+                        <span class="fatia-corpo"><span class="fatia-status">Em aprendizado</span><span class="fatia-onde">MySQL no App de Estoque e PostgreSQL no MediConsulta.</span></span>
+                    </li>
+                    <li class="fatia" tabindex="0">
+                        <span class="fatia-titulo">Servidores em nuvem</span>
+                        <span class="fatia-corpo"><span class="fatia-status">Em aprendizado</span><span class="fatia-onde">A API do App de Estoque roda no Railway.</span></span>
+                    </li>
+                    <li class="fatia" tabindex="0">
+                        <span class="fatia-titulo">Redes de computadores</span>
+                        <span class="fatia-corpo"><span class="fatia-status">Habilidade</span><span class="fatia-onde">Trabalho com redes hoje.</span></span>
+                    </li>
+                    <li class="fatia" tabindex="0">
+                        <span class="fatia-titulo">Manutenção e reparo de computadores</span>
+                        <span class="fatia-corpo"><span class="fatia-status">Habilidade</span><span class="fatia-onde">Trabalho com reparo de computadores hoje.</span></span>
+                    </li>
+                    <li class="fatia" tabindex="0">
+                        <span class="fatia-titulo">Programação</span>
+                        <span class="fatia-corpo"><span class="fatia-status">Habilidade</span><span class="fatia-onde">Base para todos os projetos.</span></span>
+                    </li>
+                </ul>
             </div>
         </section>
 
@@ -260,7 +288,6 @@
         <section id="formacao" class="alt">
             <div class="container">
                 <header class="secao-cab">
-                    <p class="secao-num">02</p>
                     <h2>Formação</h2>
                 </header>
 
@@ -295,12 +322,11 @@
         <section id="projetos">
             <div class="container">
                 <header class="secao-cab">
-                    <p class="secao-num">03</p>
-                    <h2>Projetos</h2>
+                    <h2>Projetos, do painel <span class="pill pill-painel" aria-hidden="true"></span> ao celular <span class="pill pill-celular" aria-hidden="true"></span></h2>
                 </header>
                 <div class="projetos">
 
-                    <article class="projeto reveal" id="projeto-estoque">
+                    <article class="projeto" id="projeto-estoque">
                         <div class="capa">
                             <img data-tema="claro" src="./captura-estoque.webp?v=8" width="1440" height="810" loading="lazy"
                                 alt="Painel do App de Estoque com quatro cartões de resumo, lista de produtos recentes e gráfico de entradas e saídas">
@@ -328,7 +354,7 @@
                         </div>
                     </article>
 
-                    <article class="projeto reveal" id="projeto-mediconsulta">
+                    <article class="projeto" id="projeto-mediconsulta">
                         <div class="capa">
                             <img data-tema="claro" src="./captura-mediconsulta-agenda.webp?v=8" width="1440" height="810" loading="lazy"
                                 alt="Agenda da clínica no MediConsulta, com formulário de agendamento e lista de consultas do dia com status">
@@ -356,7 +382,107 @@
                         </div>
                     </article>
 
-                    <article class="projeto reveal" id="projeto-blog">
+                    <article class="projeto" id="projeto-sessao">
+                        <div class="capa">
+                            <img src="./captura-sessao.webp?v=29" width="1440" height="810" loading="lazy"
+                                alt="Página inicial do Sessão: o título Grandes filmes merecem uma boa sessão sobre um mosaico de cartazes de filmes, com o botão Assine agora">
+                            <img class="capa-celular" src="./captura-sessao-mobile.webp?v=29" width="1080" height="2340" loading="lazy"
+                                alt="Sessão no celular, com o título em amarelo sobre os cartazes e os botões Assine agora e Conheça a plataforma">
+                        </div>
+                        <div class="projeto-corpo">
+                            <p class="projeto-tipo">Landing page · Demonstração</p>
+                            <h3>Um streaming de cinema com curadoria</h3>
+                            <ul class="numeros"><li><strong>5</strong><span>seções numa página só</span></li><li><strong>React</strong><span>com Vite</span></li><li><strong>GSAP</strong><span>animações da página</span></li></ul>
+                            <dl class="caso">
+                                <div><dt>Contexto</dt><dd>Landing page de demonstração para um streaming só de filmes, com curadoria semanal.</dd></div>
+                                <div><dt>O que entrega</dt><dd>Apresenta a plataforma, os planos e o catálogo em uma página só, com destaque para clássicos e cinema brasileiro.</dd></div>
+                            </dl>
+                            <p class="tags">React · Vite · GSAP</p>
+                            <div class="projeto-links">
+                                <button type="button" class="btn btn-ghost js-capturas" data-titulo="Sessão"
+                                    data-leg-desk="Site no desktop" data-leg-cel="Site aberto no navegador do celular">Ver capturas</button>
+                                <a class="btn btn-primario" href="https://sessao-demo.pages.dev/" target="_blank" rel="noopener">Abrir site</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="projeto" id="projeto-imoveis">
+                        <div class="capa">
+                            <img src="./captura-imoveis.webp?v=29" width="1440" height="810" loading="lazy"
+                                alt="Página inicial do Exemplo Imóveis: uma casa iluminada ao anoitecer, o título Chave na mão e cartões de imóveis em destaque">
+                            <img class="capa-celular" src="./captura-imoveis-mobile.webp?v=29" width="1080" height="2340" loading="lazy"
+                                alt="Exemplo Imóveis no celular, com o título Compre bem, more melhor sobre a foto da casa">
+                        </div>
+                        <div class="projeto-corpo">
+                            <p class="projeto-tipo">Site · Demonstração</p>
+                            <h3>Um corretor de imóveis, do anúncio à escritura</h3>
+                            <ul class="numeros"><li><strong>3</strong><span>imóveis em destaque</span></li><li><strong>6</strong><span>seções numa página só</span></li><li><strong>Lenis</strong><span>rolagem suave</span></li></ul>
+                            <dl class="caso">
+                                <div><dt>Contexto</dt><dd>Site de demonstração de um corretor de imóveis fictício; imagens e números são de exemplo.</dd></div>
+                                <div><dt>O que entrega</dt><dd>Destaques da semana, serviços do corretor, bairros de atuação, depoimentos e agendamento de visita.</dd></div>
+                            </dl>
+                            <p class="tags">HTML · CSS · JavaScript · Lenis</p>
+                            <div class="projeto-links">
+                                <button type="button" class="btn btn-ghost js-capturas" data-titulo="Exemplo Imóveis"
+                                    data-leg-desk="Site no desktop" data-leg-cel="Site aberto no navegador do celular">Ver capturas</button>
+                                <a class="btn btn-primario" href="https://teste-corretor-imoveis.aluiz0953.workers.dev/" target="_blank" rel="noopener">Abrir site</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="projeto" id="projeto-advocacia">
+                        <div class="capa">
+                            <img src="./captura-advocacia.webp?v=29" width="1440" height="810" loading="lazy"
+                                alt="Página inicial do Exemplo Advogados: uma balança da justiça em 3D sobre fundo azul-escuro e o título Direito com clareza">
+                            <img class="capa-celular" src="./captura-advocacia-mobile.webp?v=29" width="1080" height="2340" loading="lazy"
+                                alt="Exemplo Advogados no celular, com a balança em 3D acima do título Direito com clareza">
+                        </div>
+                        <div class="projeto-corpo">
+                            <p class="projeto-tipo">Site · Demonstração</p>
+                            <h3>Um escritório de advocacia que explica cada etapa</h3>
+                            <ul class="numeros"><li><strong>3D</strong><span>balança feita em Three.js</span></li><li><strong>4</strong><span>etapas do atendimento</span></li><li><strong>4</strong><span>seções numa página só</span></li></ul>
+                            <dl class="caso">
+                                <div><dt>Contexto</dt><dd>Site de demonstração de um escritório de advocacia fictício; nomes, endereços e contatos são exemplos.</dd></div>
+                                <div><dt>O que entrega</dt><dd>Áreas de atuação, o atendimento explicado em quatro etapas e contato, com uma balança em 3D no início.</dd></div>
+                            </dl>
+                            <p class="tags">HTML · CSS · JavaScript · Three.js</p>
+                            <div class="projeto-links">
+                                <button type="button" class="btn btn-ghost js-capturas" data-titulo="Exemplo Advogados"
+                                    data-leg-desk="Site no desktop" data-leg-cel="Site aberto no navegador do celular">Ver capturas</button>
+                                <a class="btn btn-primario" href="https://site-teste.aluiz0953.workers.dev/" target="_blank" rel="noopener">Abrir site</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="projeto" id="projeto-sitefast">
+                        <div class="capa">
+                            <img data-tema="claro" src="./captura-sitefast.webp?v=29" width="1440" height="810" loading="lazy"
+                                alt="Página inicial do Site Fast em tema claro: o título Veja seu site antes de pagar e os botões Quero minha prévia grátis e Ver trabalhos">
+                            <img data-tema="escuro" src="./captura-sitefast-escuro.webp?v=29" width="1440" height="810" loading="lazy"
+                                alt="Página inicial do Site Fast em tema escuro: o título Veja seu site antes de pagar sobre fundo roxo-escuro">
+                            <img data-tema="claro" class="capa-celular" src="./captura-sitefast-mobile.webp?v=29" width="1080" height="2340" loading="lazy"
+                                alt="Site Fast no celular, em tema claro, com o título e o botão Quero minha prévia grátis">
+                            <img data-tema="escuro" class="capa-celular" src="./captura-sitefast-mobile-escuro.webp?v=29" width="1080" height="2340" loading="lazy"
+                                alt="Site Fast no celular, em tema escuro, com o título e o botão Quero minha prévia grátis">
+                        </div>
+                        <div class="projeto-corpo">
+                            <p class="projeto-tipo">Site · Serviço</p>
+                            <h3>Um site que mostra a prévia antes de cobrar</h3>
+                            <ul class="numeros"><li><strong>2</strong><span>temas, claro e escuro, pelo sistema</span></li><li><strong>8</strong><span>seções numa página só</span></li><li><strong>WhatsApp</strong><span>contato direto nos botões</span></li></ul>
+                            <dl class="caso">
+                                <div><dt>Contexto</dt><dd>Site de um serviço de criação de sites, lojas virtuais, aplicativos e sistemas sob medida.</dd></div>
+                                <div><dt>O que entrega</dt><dd>Apresenta os serviços, os trabalhos, os planos e as dúvidas comuns, e leva o visitante a pedir uma prévia grátis pelo WhatsApp.</dd></div>
+                            </dl>
+                            <p class="tags">HTML · CSS · JavaScript</p>
+                            <div class="projeto-links">
+                                <button type="button" class="btn btn-ghost js-capturas" data-titulo="Site Fast"
+                                    data-leg-desk="Site no desktop" data-leg-cel="Site aberto no navegador do celular">Ver capturas</button>
+                                <a class="btn btn-primario" href="https://site-fast.pages.dev/" target="_blank" rel="noopener">Abrir site</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="projeto" id="projeto-blog">
                         <div class="capa">
                             <img src="./print-tecnologica.webp?v=8" width="1877" height="1001" loading="lazy"
                                 alt="Página inicial do Blog TecnoLógica, com cabeçalho azul, lista de postagens e barra lateral de categorias">
@@ -381,21 +507,21 @@
                         </div>
                     </article>
 
-                    <article class="projeto reveal" id="projeto-portfolio">
+                    <article class="projeto" id="projeto-portfolio">
                         <div class="capa">
-                            <img data-tema="claro" src="./captura-portfolio.webp?v=21" width="1440" height="810" loading="lazy"
-                                alt="Início deste portfólio, com o nome em destaque e blocos de formação e foco atual">
-                            <img data-tema="escuro" src="./captura-portfolio-escuro.webp?v=21" width="1440" height="810" loading="lazy"
-                                alt="Início deste portfólio, com o nome em destaque e blocos de formação e foco atual">
-                            <img data-tema="claro" class="capa-celular" src="./captura-portfolio-mobile.webp?v=21" width="1080" height="2340" loading="lazy"
-                                alt="Início deste portfólio no celular, com o nome em destaque">
-                            <img data-tema="escuro" class="capa-celular" src="./captura-portfolio-mobile-escuro.webp?v=21" width="1080" height="2340" loading="lazy"
-                                alt="Início deste portfólio no celular, com o nome em destaque">
+                            <img data-tema="claro" src="./captura-portfolio.webp?v=27" width="1440" height="810" loading="lazy"
+                                alt="Início deste portfólio: o nome em letras grandes sobre um vídeo de nuvens e pombas em tons de azul, com o botão Ver projetos">
+                            <img data-tema="escuro" src="./captura-portfolio-escuro.webp?v=27" width="1440" height="810" loading="lazy"
+                                alt="Início deste portfólio: o nome em letras grandes sobre um vídeo de nuvens e pombas em tons de azul, com o botão Ver projetos">
+                            <img data-tema="claro" class="capa-celular" src="./captura-portfolio-mobile.webp?v=27" width="1080" height="2340" loading="lazy"
+                                alt="Início deste portfólio no celular, com o nome em letras grandes sobre o vídeo azul">
+                            <img data-tema="escuro" class="capa-celular" src="./captura-portfolio-mobile-escuro.webp?v=27" width="1080" height="2340" loading="lazy"
+                                alt="Início deste portfólio no celular, com o nome em letras grandes sobre o vídeo azul">
                         </div>
                         <div class="projeto-corpo">
                             <p class="projeto-tipo">Site · Este portfólio</p>
-                            <h3>Um portfólio feito do zero, sem bibliotecas</h3>
-                            <ul class="numeros"><li><strong>0</strong><span>bibliotecas JavaScript</span></li><li><strong>2</strong><span>temas, claro e escuro</span></li><li><strong>Vanilla</strong><span>HTML, CSS e JS puros</span></li></ul>
+                            <h3>Um portfólio feito do zero, sem framework</h3>
+                            <ul class="numeros"><li><strong>1</strong><span>biblioteca JavaScript, o GSAP</span></li><li><strong>2</strong><span>temas, claro e escuro</span></li><li><strong>Vanilla</strong><span>HTML, CSS e JS puros</span></li></ul>
                             <dl class="caso">
                                 <div><dt>Contexto</dt><dd>Meu primeiro projeto, feito para fixar a base do desenvolvimento web sem templates prontos.</dd></div>
                                 <div><dt>O que entrega</dt><dd>Tema que respeita a preferência do sistema, menu responsivo, navegação por teclado e formulário de contato com validação.</dd></div>
@@ -417,9 +543,10 @@
         <section id="contato" class="alt">
             <div class="container">
                 <header class="secao-cab">
-                    <p class="secao-num">04</p>
-                    <h2>Contato</h2>
+                    <h2>Vamos conversar</h2>
                 </header>
+
+                <a class="cta-email" href="mailto:aluiz0953@gmail.com">aluiz0953@gmail.com<span class="cta-seta" aria-hidden="true">↗</span></a>
 
                 <div class="contato-grid reveal">
                     <div>
@@ -478,7 +605,12 @@
     <footer class="rodape">
         <div class="container rodape-grid">
             <p>© 2026 André Luiz Guilarducci Pereira</p>
-            <a href="#inicio">Voltar ao topo ↑</a>
+            <nav class="rodape-links" aria-label="Rodapé">
+                <a href="https://github.com/aluiz0953" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://www.linkedin.com/in/andr%C3%A9-luiz-guilarducci-pereira-925930440/" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="mailto:aluiz0953@gmail.com">E-mail</a>
+                <a href="#inicio">Voltar ao topo ↑</a>
+            </nav>
         </div>
     </footer>
 

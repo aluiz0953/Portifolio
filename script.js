@@ -1,7 +1,8 @@
-// script.js — tema, menu, destaque do link ativo, entrada ao rolar, formulário e efeitos do início
+// script.js — tema, menu, destaque do link ativo, entrada ao rolar, formulário e animações (GSAP)
 
 document.addEventListener("DOMContentLoaded", () => {
     const root = document.documentElement;
+    const calmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // 1. TEMA (claro/escuro). A classe inicial já foi aplicada no <head>.
     const themeToggle = document.getElementById('theme-toggle');
@@ -60,9 +61,39 @@ document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener('pointerdown', (e) => { if (!navbar.contains(e.target)) fechar(); });
     }
 
-    // 3. LINK ATIVO NO MENU conforme a seção visível
+    // 3. LINK ATIVO NO MENU conforme a seção visível, com um destaque que desliza até ele
     const secoes = document.querySelectorAll('main section[id]');
     const linksMenu = navLinks.querySelectorAll('a');
+    const indicador = document.createElement('span');
+    indicador.className = 'nav-indicador';
+    indicador.setAttribute('aria-hidden', 'true');
+    navLinks.prepend(indicador);
+    const menuLargo = window.matchMedia('(min-width: 681px)');
+
+    const moverIndicador = (instantaneo) => {
+        const ativo = navLinks.querySelector('a.ativo');
+        const anima = window.gsap && !calmo && !instantaneo;
+        if (!ativo || !menuLargo.matches) {
+            if (anima) gsap.to(indicador, { opacity: 0, duration: .25 });
+            else indicador.style.opacity = 0;
+            return;
+        }
+        const r = ativo.getBoundingClientRect();
+        const base = navLinks.getBoundingClientRect();
+        const alvo = { x: r.left - base.left, width: r.width };
+        if (!anima) {
+            indicador.style.transform = `translateX(${alvo.x}px)`;
+            indicador.style.width = alvo.width + 'px';
+            indicador.style.opacity = 1;
+        } else if (Number(gsap.getProperty(indicador, 'opacity')) < .05) {
+            // aparecendo agora: vai direto para o link e só então surge
+            gsap.set(indicador, alvo);
+            gsap.to(indicador, { opacity: 1, duration: .3 });
+        } else {
+            gsap.to(indicador, { ...alvo, opacity: 1, duration: .5, ease: 'power3.out' });
+        }
+    };
+    window.addEventListener('resize', () => moverIndicador(true));
 
     if ('IntersectionObserver' in window) {
         const spy = new IntersectionObserver((entradas) => {
@@ -70,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!entrada.isIntersecting) return;
                 linksMenu.forEach((a) =>
                     a.classList.toggle('ativo', a.getAttribute('href') === '#' + entrada.target.id));
+                moverIndicador();
             });
         }, { rootMargin: '-45% 0px -50% 0px' });
         secoes.forEach((s) => spy.observe(s));
@@ -97,7 +129,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 4c. HORA LOCAL (Brasília) no tile do hero
+    // 4b2. ACORDEÃO DO SOBRE: a fatia sob o cursor, em foco ou tocada se abre; as outras fecham
+    const fatias = [...document.querySelectorAll('.fatia')];
+    const abrirFatia = (f) => fatias.forEach((x) => x.classList.toggle('aberta', x === f));
+    fatias.forEach((f) => ['mouseenter', 'focus', 'click'].forEach((ev) => f.addEventListener(ev, () => abrirFatia(f))));
+
+    // cartões de projeto: ordem na pilha (--k) e um véu que o GSAP escurece quando o próximo cobre
+    const cartoes = [...document.querySelectorAll('.projeto')];
+    cartoes.forEach((c, i) => {
+        c.style.setProperty('--k', i);
+        c.insertAdjacentHTML('beforeend', '<span class="projeto-veu" aria-hidden="true"></span>');
+    });
+
+    // 4c. HORA LOCAL (Brasília) no rodapé do início
     const hora = document.getElementById('hora-local');
     if (hora) {
         const fmt = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' });
@@ -178,90 +222,94 @@ document.addEventListener("DOMContentLoaded", () => {
         form.reset();
     });
 
-    // 6. EFEITOS DO INÍCIO
-    const calmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // 6. ANIMAÇÕES COM GSAP: entrada do início, saída ao rolar e títulos letra a letra.
+    //    Com movimento reduzido tudo aparece direto. Se o GSAP não carregar, o conteúdo
+    //    aparece mesmo assim (e o CSS ainda revela o início depois de 2,5 s).
+    const hero = document.querySelector('.hero');
+    const entram = hero ? [...hero.querySelectorAll('[data-in]')] : [];
+    const mostrar = () => entram.forEach((el) => { el.style.visibility = 'visible'; });
 
-    // 6a. LETRAS QUE SOBEM: o nome e os títulos das seções entram letra a letra, uma vez só.
-    //     As letras ficam em spans escondidos de leitores de tela; o título inteiro vai no aria-label.
-    const titulos = document.querySelectorAll('.hero h1, .secao-cab h2');
-    if (!calmo && 'IntersectionObserver' in window) {
-        titulos.forEach((el) => {
-            const texto = el.textContent.trim();
-            let n = 0;
-            el.setAttribute('aria-label', texto);
-            el.innerHTML = texto.split(/\s+/).map((palavra) =>
-                '<span class="sp-w" aria-hidden="true">' +
-                [...palavra].map((c) => `<span class="sp-c" style="--ci:${n++}">${c}</span>`).join('') +
-                '</span>').join(' ');
-            el.classList.add('split');
+    // vídeo do início: só toca com a seção na tela e sem movimento reduzido (senão fica a imagem de capa)
+    const video = hero && hero.querySelector('.hero-video');
+    if (video && !calmo && 'IntersectionObserver' in window) {
+        new IntersectionObserver(([e]) => {
+            if (e.isIntersecting) video.play().catch(() => { });
+            else video.pause();
+        }, { threshold: 0.05 }).observe(hero);
+    }
+
+    if (hero && window.gsap && window.ScrollTrigger && window.SplitText) {
+        gsap.registerPlugin(ScrollTrigger, SplitText);
+        const mm = gsap.matchMedia();
+
+        mm.add('(prefers-reduced-motion: no-preference)', () => {
+            mostrar();
+            const conteudo = hero.querySelector('.hero-conteudo');
+            const rodape = hero.querySelector('.hero-rodape');
+            const nome = SplitText.create(hero.querySelector('h1'), { type: 'words, chars' });
+
+            gsap.timeline({ defaults: { ease: 'power3.out' } })
+                .from('.hero-marca', { opacity: 0, y: 14, duration: .7 }, .1)
+                .from(nome.chars, { opacity: 0, yPercent: 55, duration: .9, stagger: .028 }, .25)
+                .from('.hero-sub', { opacity: 0, y: 18, duration: .8 }, .62)
+                .from('.btn-oval', { opacity: 0, y: 18, duration: .8 }, .76)
+                .from(rodape, { opacity: 0, duration: .8 }, .95);
+
+            // ao rolar, o conteúdo sobe e some e o vídeo se aproxima devagar
+            const saida = { trigger: hero, start: 'top top', end: 'bottom top', scrub: true };
+            gsap.to(conteudo, { yPercent: -16, opacity: 0, ease: 'none', scrollTrigger: saida });
+            gsap.to(rodape.children, { opacity: 0, ease: 'none', scrollTrigger: { ...saida, end: '25% top' } });
+            if (video) gsap.to(video, { scale: 1.12, ease: 'none', scrollTrigger: saida });
+
+            // capas dos projetos: começam menores e crescem até o tamanho real ao entrar na tela
+            cartoes.forEach((c) => {
+                gsap.fromTo(c, { '--entra': .8 }, {
+                    '--entra': 1, ease: 'none',
+                    scrollTrigger: { trigger: c, start: 'top bottom', end: 'top 30%', scrub: true },
+                });
+            });
+
+            // títulos das seções entram letra a letra, uma vez só
+            document.querySelectorAll('.secao-cab h2').forEach((h2) => {
+                const letras = SplitText.create(h2, { type: 'words, chars' });
+                gsap.from(letras.chars, {
+                    opacity: 0, yPercent: 60, duration: .7, stagger: .03, ease: 'power3.out',
+                    scrollTrigger: { trigger: h2, start: 'top 88%', once: true },
+                });
+            });
+        }, hero);
+
+        // desktop: os projetos se empilham; o cartão de trás diminui e escurece quando o próximo sobe
+        mm.add('(prefers-reduced-motion: no-preference) and (min-width: 861px)', () => {
+            cartoes.slice(0, -1).forEach((c, i) => {
+                const proximo = cartoes[i + 1];
+                const cobre = {
+                    trigger: proximo, start: 'top bottom',
+                    end: () => `top ${92 + Math.min(i + 1, 4) * 16}px`, scrub: true, invalidateOnRefresh: true,
+                };
+                gsap.to(c, { scale: .93, ease: 'none', scrollTrigger: cobre });
+                gsap.to(c.querySelector('.projeto-veu'), { opacity: .55, ease: 'none', scrollTrigger: cobre });
+            });
         });
-        const verLetras = new IntersectionObserver((entradas) => {
-            entradas.forEach((e) => {
-                if (!e.isIntersecting) return;
-                e.target.classList.add('split-ativo');
-                verLetras.unobserve(e.target);
+
+        // celular: sem pilha; a capa escurece e some aos poucos quando sai pelo topo
+        mm.add('(prefers-reduced-motion: no-preference) and (max-width: 860px)', () => {
+            cartoes.forEach((c) => {
+                gsap.to(c.querySelector('.capa'), {
+                    opacity: .2, ease: 'none',
+                    scrollTrigger: { trigger: c, start: 'top 15%', end: 'top -40%', scrub: true },
+                });
             });
-        }, { threshold: 0.2 });
-        titulos.forEach((el) => verLetras.observe(el));
+        });
+
+        mm.add('(prefers-reduced-motion: reduce)', mostrar);
+    } else {
+        mostrar();
     }
 
-    // 6b. BLOCOS DO INÍCIO: a borda acende perto do cursor (também nos blocos vizinhos)
-    //     e um clique solta uma onda de luz que atravessa a grade.
-    const bento = document.querySelector('.bento');
-    if (bento) {
-        const blocos = [...bento.querySelectorAll('.tile')];
-        blocos.forEach((t) => t.insertAdjacentHTML('beforeend',
-            '<span class="tile-onda-luz" aria-hidden="true"></span><span class="tile-borda" aria-hidden="true"></span><span class="tile-onda" aria-hidden="true"></span>'));
-
-        let px = -1e5, py = -1e5, onda = null, raf = 0;
-        const quadro = (agora) => {
-            raf = 0;
-            let wr = 0, wa = 0;
-            if (onda) {
-                const p = Math.min(1, (agora - onda.t0) / 1500);
-                wr = onda.alcance * (1 - Math.pow(1 - p, 2.2));
-                wa = Math.pow(1 - p, 1.3);
-                if (p >= 1) onda = null;
-            }
-            blocos.forEach((t) => {
-                const r = t.getBoundingClientRect();
-                t.style.setProperty('--mx', (px - r.left).toFixed(1) + 'px');
-                t.style.setProperty('--my', (py - r.top).toFixed(1) + 'px');
-                if (onda || wa === 0) {
-                    t.style.setProperty('--wx', ((onda ? onda.x : 0) - r.left).toFixed(1) + 'px');
-                    t.style.setProperty('--wy', ((onda ? onda.y : 0) - r.top).toFixed(1) + 'px');
-                    t.style.setProperty('--wr', wr.toFixed(1) + 'px');
-                    t.style.setProperty('--wa', wa.toFixed(3));
-                }
-            });
-            if (onda) raf = requestAnimationFrame(quadro);
-        };
-        const pedir = () => { if (!raf) raf = requestAnimationFrame(quadro); };
-
-        window.addEventListener('pointermove', (e) => {
-            if (e.pointerType !== 'mouse') return;
-            px = e.clientX; py = e.clientY;
-            const b = bento.getBoundingClientRect(), m = 120;
-            const perto = px > b.left - m && px < b.right + m && py > b.top - m && py < b.bottom + m;
-            bento.classList.toggle('perto', perto);
-            if (perto) pedir();
-        }, { passive: true });
-        document.documentElement.addEventListener('mouseleave', () => bento.classList.remove('perto'));
-
-        if (!calmo) {
-            bento.addEventListener('pointerdown', (e) => {
-                const b = bento.getBoundingClientRect();
-                const alcance = Math.max(...[[b.left, b.top], [b.right, b.top], [b.left, b.bottom], [b.right, b.bottom]]
-                    .map(([x, y]) => Math.hypot(x - e.clientX, y - e.clientY))) + 140;
-                onda = { x: e.clientX, y: e.clientY, t0: performance.now(), alcance };
-                pedir();
-            });
-        }
-    }
-
-    // 6c. ONDAS ANIMADAS NO FUNDO (WebGL, sem biblioteca): no início e nas seções alternadas.
-    //     Reagem ao cursor, param quando a seção sai da tela e viram um quadro parado com
-    //     movimento reduzido. Sem WebGL, o ondas.svg estático continua no lugar.
+    // 7. ONDAS ANIMADAS NO FUNDO DAS SEÇÕES ALTERNADAS (WebGL, sem biblioteca).
+    //    Reagem ao cursor, param quando a seção sai da tela e viram um quadro parado com
+    //    movimento reduzido. Sem WebGL, o ondas.svg estático continua no lugar.
     const FRAG = `
         #extension GL_OES_standard_derivatives : enable
         precision highp float;
@@ -368,6 +416,5 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // intensidade das linhas: [tema claro, tema escuro]
-    document.querySelectorAll('.hero').forEach((s) => ondas(s, [0.34, 0.42]));
     document.querySelectorAll('section.alt').forEach((s) => ondas(s, [0.2, 0.26]));
 });

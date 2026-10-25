@@ -30,8 +30,9 @@
     --danger: #b3342a;
     --shadow: 0 1px 2px rgb(15 18 74 / .07), 0 8px 24px -12px rgb(15 18 74 / .22);
 
-    --font: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font: 'Satoshi', system-ui, -apple-system, 'Segoe UI', sans-serif;
     --mono: 'Geist Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+    --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
 
     --radius: 14px;
     --radius-sm: 8px;
@@ -229,6 +230,32 @@ h3 {
 
 .nav-links a.ativo {
     color: var(--accent-strong);
+}
+
+.nav-links {
+    position: relative;
+}
+
+.nav-links > li {
+    position: relative;
+    z-index: 1;
+}
+
+.nav-indicador {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* sem JS o indicador não existe; o link ativo usa o fundo direto */
+html:not(.js) .nav-links a.ativo {
     background: var(--accent-soft);
 }
 
@@ -560,27 +587,266 @@ h3 {
     color: var(--accent-strong);
 }
 
-/* ---------- Hero ---------- */
+/* ---------- Início em tela cheia (inspirado no Glacier) ----------
+   Vídeo tingido na paleta, conteúdo centralizado, título em serifa e botão oval.
+   O início é sempre escuro, nos dois temas: o texto fica sobre o vídeo. */
 .hero {
     position: relative;
-    padding: clamp(104px, 12vw, 150px) 0 clamp(56px, 8vw, 96px);
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
     overflow: hidden;
     isolation: isolate;
+    background: #08081a;
+    color: #fff;
 }
 
-/* Grade sutil + brilho do acento, em vez de fundo chapado */
-.hero::before {
-    content: '';
+.hero-video {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* véus para o texto ficar legível: base, topo/rodapé e laterais */
+.hero-veu {
     position: absolute;
     inset: 0;
     z-index: -1;
+    pointer-events: none;
     background:
-        radial-gradient(60% 70% at 85% 0%, color-mix(in srgb, var(--p4) 20%, transparent), transparent 70%),
-        radial-gradient(50% 60% at 0% 100%, color-mix(in srgb, var(--p1) 16%, transparent), transparent 70%);
+        linear-gradient(to bottom, rgb(0 0 0 / .34) 0%, transparent 24%, transparent 58%, rgb(0 0 0 / .5) 100%),
+        linear-gradient(to right, rgb(0 0 0 / .2) 0%, transparent 20%, transparent 80%, rgb(0 0 0 / .2) 100%),
+        rgb(4 5 22 / .28);
 }
 
-/* Formas de linhas onduladas no lugar da grade: a cor vem do token de destaque (máscara) */
-.hero::after,
+.hero-conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: min(100% - 48px, 1000px);
+    padding: 88px 0 96px;
+}
+
+.hero-marca {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.hero-marca-titulo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: .8rem;
+    font-weight: 500;
+    letter-spacing: .34em;
+    text-transform: uppercase;
+    padding-left: .34em;
+}
+
+.hero-marca-titulo::before,
+.hero-marca-titulo::after {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: rgb(255 255 255 / .55);
+}
+
+.hero-marca-sub {
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / .68);
+    padding-left: .26em;
+}
+
+.hero h1 {
+    font-family: var(--serif);
+    text-transform: uppercase;
+    text-wrap: balance;
+    text-shadow: 0 2px 40px rgb(0 0 0 / .4);
+}
+
+.hero-h1-a {
+    display: block;
+    font-weight: 400;
+    font-size: clamp(3rem, min(8.6vw, 11vh), 6.6rem);
+    line-height: 1;
+    letter-spacing: .02em;
+}
+
+.hero-h1-b {
+    display: block;
+    font-weight: 700;
+    font-size: clamp(2.05rem, min(5.6vw, 7.4vh), 4.5rem);
+    line-height: 1.04;
+    letter-spacing: .01em;
+}
+
+.hero-sub {
+    max-width: 34rem;
+    margin-top: 22px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.05rem, 1.7vw, 1.2rem);
+    line-height: 1.55;
+    color: rgb(255 255 255 / .86);
+    text-shadow: 0 1px 20px rgb(0 0 0 / .45);
+}
+
+/* botão oval: border-radius 50% forma uma elipse de verdade, mais larga que alta */
+.btn-oval {
+    margin-top: 34px;
+    padding: 21px 60px;
+    border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / .62);
+    color: #fff;
+    font-size: .76rem;
+    font-weight: 500;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color .3s var(--ease), border-color .3s, transform .15s var(--ease);
+}
+
+.btn-oval:hover {
+    background: rgb(255 255 255 / .12);
+    border-color: #fff;
+}
+
+.btn-oval:active {
+    transform: scale(.97);
+}
+
+.btn-oval:focus-visible,
+.hero-rodape a:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+}
+
+/* faixa no pé do início: redes à esquerda, convite a rolar no centro, local e hora à direita */
+.hero-rodape {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 40px 28px;
+    font-size: .74rem;
+    font-weight: 500;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / .62);
+}
+
+.hero-rodape-lado {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.hero-redes {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.hero-redes a {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: rgb(255 255 255 / .75);
+    transition: color .2s, background-color .2s;
+}
+
+.hero-redes a:hover {
+    color: #fff;
+    background: rgb(255 255 255 / .1);
+}
+
+.hero-redes svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+.hero-rodape a.hero-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color .2s;
+}
+
+.hero-rodape a.hero-link:hover {
+    color: #fff;
+}
+
+.hero-rolar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+}
+
+.hero-rolar strong {
+    color: rgb(255 255 255 / .92);
+    font-weight: 600;
+}
+
+.hero-hora {
+    font-family: var(--mono);
+    letter-spacing: .08em;
+    color: rgb(255 255 255 / .88);
+    font-variant-numeric: tabular-nums;
+}
+
+/* telas baixas (notebooks de 768 px): tudo um pouco mais compacto para caber sem rolar */
+@media (max-height: 820px) {
+    .hero-conteudo {
+        padding: 80px 0 84px;
+    }
+
+    .hero-marca {
+        margin-bottom: 14px;
+    }
+
+    .hero-sub {
+        margin-top: 14px;
+        font-size: 1rem;
+        max-width: 38rem;
+    }
+
+    .btn-oval {
+        margin-top: 24px;
+        padding: 17px 52px;
+    }
+}
+
+/* Sem JS, ou se o GSAP não carregar, o conteúdo aparece mesmo assim depois de 2,5 s */
+.js .hero [data-in] {
+    visibility: hidden;
+    animation: hero-mostrar 0s linear 2.5s forwards;
+}
+
+@keyframes hero-mostrar {
+    to {
+        visibility: visible;
+    }
+}
+
+/* Formas de linhas onduladas nas seções alternadas: a cor vem do token de destaque (máscara) */
 section.alt::before {
     content: '';
     position: absolute;
@@ -590,49 +856,11 @@ section.alt::before {
     background: var(--accent);
     -webkit-mask: url(ondas.svg) center / cover no-repeat;
     mask: url(ondas.svg) center / cover no-repeat;
-    opacity: .3;
-}
-
-:root[data-theme="dark"] .hero::after,
-:root[data-theme="dark"] section.alt::before {
-    opacity: .32;
-}
-
-section.alt::before {
     opacity: .15;
 }
 
 :root[data-theme="dark"] section.alt::before {
     opacity: .2;
-}
-
-.eyebrow {
-    font-family: var(--mono);
-    font-size: .8rem;
-    letter-spacing: .02em;
-    color: var(--accent-strong);
-    margin-bottom: 20px;
-}
-
-.hero h1 {
-    font-size: clamp(2.5rem, 6.4vw, 4.75rem);
-    font-weight: 700;
-    letter-spacing: -.035em;
-    line-height: 1.02;
-}
-
-.lede {
-    max-width: 52ch;
-    margin-top: 24px;
-    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
-    color: var(--muted);
-}
-
-.hero-cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 36px;
 }
 
 .ficha dt {
@@ -644,46 +872,7 @@ section.alt::before {
     margin-bottom: 2px;
 }
 
-/* ---------- Bento (hero) ---------- */
-.bento {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 16px;
-}
-
-.tile {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 24px;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    text-decoration: none;
-    transition: border-color .3s, transform .3s var(--ease);
-}
-
-/* Entrada escalonada */
-.js .tile {
-    opacity: 0;
-    transform: translateY(16px);
-    animation: tile-in .8s var(--ease) forwards;
-    animation-delay: calc(var(--i, 0) * 90ms + 60ms);
-}
-
-@keyframes tile-in {
-    to {
-        opacity: 1;
-        transform: none;
-    }
-}
-
-/* Luz que segue o cursor (variáveis definidas no script.js) */
-.tile::after,
+/* Luz que segue o cursor nos cartões de projeto (variáveis definidas no script.js) */
 .projeto::after {
     content: '';
     position: absolute;
@@ -695,156 +884,10 @@ section.alt::before {
     transition: opacity .3s;
 }
 
-.tile:hover::after,
 .projeto:hover::after {
     opacity: 1;
 }
 
-.tile-nome::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-        radial-gradient(55% 60% at 100% 0%, color-mix(in srgb, var(--p4) 24%, transparent), transparent 70%),
-        radial-gradient(50% 55% at 0% 100%, color-mix(in srgb, var(--p1) 20%, transparent), transparent 70%);
-}
-
-.tile-nome > * {
-    position: relative;
-}
-
-.tile-nome {
-    grid-column: span 8;
-    grid-row: span 2;
-    justify-content: center;
-    padding: clamp(28px, 4vw, 56px);
-}
-
-.tile-agora,
-.tile-uninter {
-    grid-column: span 4;
-}
-
-.tile-link,
-.tile-hora {
-    grid-column: span 4;
-}
-
-.tile-link:hover {
-    border-color: var(--accent);
-    transform: translateY(-3px);
-}
-
-.tile-rotulo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--mono);
-    font-size: .72rem;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    color: var(--muted);
-}
-
-.ponto {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent);
-    animation: pulso 2.4s infinite;
-}
-
-@keyframes pulso {
-    70% {
-        box-shadow: 0 0 0 8px transparent;
-    }
-
-    100% {
-        box-shadow: 0 0 0 0 transparent;
-    }
-}
-
-.tile-lista li {
-    font-weight: 600;
-    font-size: 1.05rem;
-    padding: 4px 0;
-}
-
-.tile-titulo {
-    font-size: 1.3rem;
-    font-weight: 600;
-    letter-spacing: -.02em;
-    line-height: 1.2;
-}
-
-.tile-sub {
-    font-size: .88rem;
-    color: var(--muted);
-}
-
-.tile-uninter .tile-titulo {
-    margin-top: auto;
-}
-
-.tile-hora-valor {
-    font-family: var(--mono);
-    font-size: clamp(2rem, 3.4vw, 2.6rem);
-    font-weight: 500;
-    letter-spacing: -.04em;
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-}
-
-.tile-numero {
-    font-size: clamp(3.2rem, 6vw, 4.5rem);
-    font-weight: 700;
-    letter-spacing: -.05em;
-    line-height: .9;
-    color: var(--accent-strong);
-}
-
-.tile-num {
-    background: var(--grad);
-    border-color: transparent;
-    color: var(--on-grad);
-}
-
-.tile-num .tile-rotulo,
-.tile-num .seta {
-    color: color-mix(in srgb, var(--on-grad) 78%, transparent);
-}
-
-.tile-num .tile-numero {
-    color: var(--on-grad);
-}
-
-.seta {
-    position: absolute;
-    top: 20px;
-    right: 22px;
-    font-size: 1.2rem;
-    color: var(--muted);
-    transition: transform .3s var(--ease), color .2s;
-}
-
-.tile-link:hover .seta {
-    color: var(--accent-strong);
-    transform: translate(3px, -3px);
-}
-
-.tile-num:hover .seta {
-    transform: translateY(3px);
-}
-
-.lede mark {
-    background: linear-gradient(90deg, color-mix(in srgb, var(--p1) 38%, transparent), color-mix(in srgb, var(--p4) 38%, transparent)) 0 88% / 100% 42% no-repeat;
-    color: inherit;
-    padding: 0 2px;
-}
-
-/* ---------- Efeitos do início ---------- */
 /* Ondas animadas (canvas WebGL criado pelo script.js); com ele, o ondas.svg estático sai */
 .ondas-vivas {
     position: absolute;
@@ -855,94 +898,251 @@ section.alt::before {
     pointer-events: none;
 }
 
-.hero.tem-ondas::after,
 section.alt.tem-ondas::before {
     display: none;
 }
 
-/* Letras que sobem: o script.js separa o texto e liga .split-ativo quando o título aparece */
-.sp-w {
-    display: inline-block;
+
+/* ---------- Faixa de tecnologias em loop ---------- */
+.faixa {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(28px, 4vw, 44px) 0;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+}
+
+.faixa-linha {
+    display: flex;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.faixa-linha + .faixa-linha {
+    margin-top: 10px;
+}
+
+.faixa-trilho {
+    display: flex;
+    flex: none;
+    animation: faixa 42s linear infinite;
+}
+
+.faixa-linha--volta .faixa-trilho {
+    animation-direction: reverse;
+    animation-duration: 54s;
+}
+
+.faixa:hover .faixa-trilho {
+    animation-play-state: paused;
+}
+
+.faixa-grupo {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: clamp(22px, 3vw, 40px);
+    padding-right: clamp(22px, 3vw, 40px);
+    font-size: clamp(1.8rem, 4.2vw, 3.6rem);
+    font-weight: 700;
+    letter-spacing: -.035em;
+    line-height: 1.1;
     white-space: nowrap;
+    color: var(--ink);
 }
 
-.sp-c {
-    display: inline-block;
+.faixa-linha--volta .faixa-grupo {
+    font-weight: 500;
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--ink) 55%, transparent);
 }
 
-.split .sp-c {
+.faixa-sep {
+    width: .32em;
+    height: .32em;
+    flex: none;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: rotate(45deg);
+}
+
+@keyframes faixa {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* ---------- Acordeão horizontal (Sobre) ---------- */
+.acordeao-titulo {
+    margin: clamp(64px, 9vw, 112px) 0 20px;
+    font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -.03em;
+}
+
+.acordeao {
+    display: flex;
+    gap: 10px;
+    height: clamp(300px, 34vw, 400px);
+}
+
+.fatia {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background:
+        radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 60%),
+        var(--surface);
+    box-shadow: var(--shadow);
+    cursor: default;
+    outline: none;
+    transition: flex-grow .6s var(--ease), border-color .3s, background-color .3s;
+}
+
+.fatia::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    -webkit-mask: url(ondas.svg) center / cover no-repeat;
+    mask: url(ondas.svg) center / cover no-repeat;
     opacity: 0;
-    transform: translateY(.45em);
+    transition: opacity .6s var(--ease);
 }
 
-.split.split-ativo .sp-c {
+.fatia.aberta {
+    flex-grow: 4.2;
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+}
+
+.fatia.aberta::before {
+    opacity: .16;
+}
+
+.fatia:focus-visible {
+    outline: 2px solid var(--accent-strong);
+    outline-offset: 3px;
+}
+
+.fatia-titulo {
+    position: relative;
+    font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    line-height: 1.15;
+}
+
+/* fechada: o título fica na vertical, lido de baixo para cima */
+.fatia:not(.aberta) .fatia-titulo {
+    position: absolute;
+    left: 50%;
+    bottom: 22px;
+    white-space: nowrap;
+    transform: translateX(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+}
+
+.fatia-corpo {
+    position: relative;
+    display: grid;
+    gap: 6px;
+    max-width: 34ch;
+    margin-top: 12px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .35s var(--ease), transform .45s var(--ease);
+}
+
+.fatia.aberta .fatia-corpo {
     opacity: 1;
     transform: none;
-    transition: opacity .5s var(--ease), transform .7s var(--ease);
-    transition-delay: calc(var(--sp-base, 0ms) + var(--ci) * 28ms);
+    transition-delay: .18s;
 }
 
-.hero h1 {
-    --sp-base: 260ms;
-}
-
-/* Blocos do início: borda que acende perto do cursor e onda de luz no clique */
-.tile > .tile-borda,
-.tile > .tile-onda {
+.fatia:not(.aberta) .fatia-corpo {
     position: absolute;
-    inset: 0;
-    z-index: 2;
-    padding: 2.5px;
-    border-radius: inherit;
-    pointer-events: none;
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    visibility: hidden;
 }
 
-.tile > .tile-borda {
-    background: radial-gradient(340px circle at var(--mx, -999px) var(--my, -999px),
-            var(--accent), var(--accent) 22%, color-mix(in srgb, var(--accent) 55%, transparent) 50%, transparent 78%);
-    opacity: 0;
-    transition: opacity .35s var(--ease);
+.fatia-status {
+    font-family: var(--mono);
+    font-size: .74rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
 }
 
-.bento.perto .tile > .tile-borda {
-    opacity: 1;
+.fatia-onde {
+    color: var(--muted);
+    font-size: .98rem;
 }
 
-.tile > .tile-onda {
-    padding: 3.5px;
-    background: radial-gradient(circle at var(--wx, -999px) var(--wy, -999px),
-            transparent calc(var(--wr, 0px) - 150px),
-            var(--accent) calc(var(--wr, 0px) - 10px),
-            transparent var(--wr, 0px));
-    opacity: var(--wa, 0);
+/* ---------- Contato: chamada grande ---------- */
+.cta-email {
+    display: inline-flex;
+    align-items: center;
+    gap: .3em;
+    max-width: 100%;
+    margin: -12px 0 clamp(48px, 7vw, 88px);
+    padding: .32em .6em .36em;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: clamp(1.4rem, 4.4vw, 3.6rem);
+    font-weight: 700;
+    letter-spacing: -.035em;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    transition: transform .2s var(--ease), box-shadow .3s;
 }
 
-/* brilho da onda dentro do bloco (sem máscara: atravessa o conteúdo como uma faixa de luz) */
-.tile > .tile-onda-luz {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: radial-gradient(circle at var(--wx, -999px) var(--wy, -999px),
-            transparent calc(var(--wr, 0px) - 220px),
-            color-mix(in srgb, var(--accent) 22%, transparent) calc(var(--wr, 0px) - 20px),
-            transparent var(--wr, 0px));
-    opacity: var(--wa, 0);
+.cta-email:hover {
+    box-shadow: 0 18px 50px -18px color-mix(in srgb, var(--p1) 80%, transparent);
 }
 
-/* luz dentro do bloco: mais nítida, seguindo o mesmo cursor */
-.tile::after {
-    background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%),
-            color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%);
+.cta-email:active {
+    transform: scale(.98);
+}
+
+.cta-seta {
+    display: grid;
+    place-items: center;
+    width: 1.2em;
+    height: 1.2em;
+    flex: none;
+    border-radius: 50%;
+    background: var(--p1);
+    color: #fff;
+    font-size: .62em;
+    transition: transform .3s var(--ease);
+}
+
+.cta-email:hover .cta-seta {
+    transform: translate(3px, -3px);
+}
+
+.rodape-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
 }
 
 /* ---------- Seções ---------- */
 section {
-    padding: clamp(64px, 9vw, 112px) 0 clamp(72px, 10vw, 128px);
+    padding: clamp(112px, 14vw, 192px) 0 clamp(120px, 15vw, 208px);
+}
+
+/* nada de rolagem lateral por animações fora da tela (clip não quebra o position: sticky) */
+main {
+    overflow-x: clip;
 }
 
 section.alt {
@@ -957,25 +1157,44 @@ section.alt {
 }
 
 .secao-cab {
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    margin-bottom: 40px;
-}
-
-.secao-num {
-    font-family: var(--mono);
-    font-size: .85rem;
-    color: var(--on-grad);
-    background: var(--grad);
-    padding: 2px 8px;
-    border-radius: 6px;
+    margin-bottom: clamp(40px, 6vw, 72px);
 }
 
 .secao-cab h2 {
-    font-size: clamp(1.9rem, 4vw, 2.75rem);
+    max-width: 22ch;
+    font-size: clamp(2.6rem, 6.2vw, 5.4rem);
     font-weight: 700;
-    letter-spacing: -.03em;
+    letter-spacing: -.04em;
+    line-height: .98;
+}
+
+/* imagens em pílula dentro da frase do título de Projetos */
+.pill {
+    display: inline-block;
+    width: 2.1em;
+    height: .82em;
+    margin: 0 .06em;
+    border-radius: 999px;
+    vertical-align: -.04em;
+    background: var(--bg-alt) center top / cover no-repeat;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+.pill-painel {
+    background-image: url(captura-estoque.webp?v=8);
+}
+
+.pill-celular {
+    width: 1.3em;
+    background-image: url(captura-mediconsulta-mobile.webp?v=15);
+}
+
+:root[data-theme="dark"] .pill-painel {
+    background-image: url(captura-estoque-escuro.webp?v=8);
+}
+
+:root[data-theme="dark"] .pill-celular {
+    background-image: url(captura-mediconsulta-mobile-escuro.webp?v=8);
 }
 
 .secao-intro {
@@ -1009,27 +1228,6 @@ section.alt {
 
 .prosa p+p {
     margin-top: 16px;
-}
-
-.chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.chips li {
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: var(--accent);
-    color: var(--accent-ink);
-    font-size: .88rem;
-    font-weight: 500;
-}
-
-.chips-suave li {
-    background: transparent;
-    color: var(--ink);
-    border: 1px solid var(--line);
 }
 
 .ficha {
@@ -1179,17 +1377,6 @@ section.alt {
     transition: transform .3s var(--ease), border-color .3s;
 }
 
-.projeto::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--grad);
-    z-index: 1;
-}
-
 .projeto:hover {
     transform: translateY(-4px);
     border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
@@ -1208,10 +1395,6 @@ section.alt {
     object-fit: cover;
     object-position: top;
     transition: transform .6s var(--ease);
-}
-
-.projeto:hover .capa > img:not(.capa-celular) {
-    transform: scale(1.03);
 }
 
 /* Prints no mesmo tema do site: cada imagem tem versão clara e escura, o CSS mostra a que combina.
@@ -1571,26 +1754,107 @@ form {
     transform: none;
 }
 
-.js .projetos .reveal:nth-child(even) {
-    transition-delay: .08s;
+/* ---------- Projetos empilhados (desktop) ----------
+   Cada cartão gruda no topo e o próximo sobe por cima; o GSAP diminui e escurece o de trás. */
+.projeto-veu {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    border-radius: inherit;
+    background: #05061a;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* a capa cresce ao entrar: o GSAP anima --entra; o hover soma o zoom por cima */
+.capa > img:not(.capa-celular) {
+    transform: scale(calc(var(--entra, 1) * var(--zoom, 1)));
+}
+
+.projeto:hover .capa > img:not(.capa-celular) {
+    --zoom: 1.03;
+}
+
+@media (min-width: 861px) {
+    .projetos {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(40px, 6vw, 80px);
+    }
+
+    .projeto {
+        position: sticky;
+        /* com muitos cartões, a escada para no 4º degrau para o cartão caber na tela */
+        top: calc(92px + min(var(--k, 0), 4) * 16px);
+        display: grid;
+        grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+        min-height: min(600px, calc(100svh - 140px));
+        transform-origin: 50% 0;
+        transition: border-color .3s;
+    }
+
+    .projeto:hover {
+        transform: none;
+    }
+
+    .projeto .capa {
+        aspect-ratio: auto;
+        height: 100%;
+        border-bottom: 0;
+        border-right: 1px solid var(--line);
+    }
+
+    .projeto .capa > img:not(.capa-celular) {
+        object-position: left top;
+    }
+
+    .projeto .capa .capa-celular {
+        height: 74%;
+    }
+
+    .projeto-corpo {
+        padding: clamp(28px, 3vw, 44px);
+        overflow: auto;
+    }
 }
 
 /* ---------- Responsivo ---------- */
 @media (max-width: 860px) {
 
-    .tile-nome {
-        grid-column: span 12;
-        grid-row: auto;
+    .hero-rolar {
+        display: none;
     }
 
-    .tile-agora,
-    .tile-uninter {
-        grid-column: span 6;
+    .acordeao {
+        flex-direction: column;
+        height: auto;
     }
 
-    .tile-link,
-    .tile-hora {
-        grid-column: span 6;
+    .fatia,
+    .fatia.aberta {
+        flex: none;
+        min-height: 0;
+    }
+
+    .fatia:not(.aberta) .fatia-titulo {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        transform: none;
+        writing-mode: horizontal-tb;
+        white-space: normal;
+    }
+
+    .fatia .fatia-corpo,
+    .fatia:not(.aberta) .fatia-corpo {
+        position: relative;
+        visibility: visible;
+        opacity: 1;
+        transform: none;
+    }
+
+    .fatia::before {
+        opacity: .1;
     }
 
     .sobre-grid,
@@ -1675,15 +1939,16 @@ form {
         font-size: 1rem;
     }
 
-    .tile-agora,
-    .tile-uninter,
-    .tile-link,
-    .tile-hora {
-        grid-column: span 12;
+    .hero-rodape {
+        padding: 0 16px 20px;
     }
 
-    .tile-nome {
-        padding: 28px 22px;
+    .hero-rodape .hero-link {
+        display: none;
+    }
+
+    .btn-oval {
+        padding: 19px 46px;
     }
 }
 
@@ -1700,9 +1965,12 @@ form {
         animation-duration: .01ms !important;
     }
 
-    .js .reveal,
-    .js .tile {
+    .js .reveal {
         opacity: 1;
         transform: none;
+    }
+
+    .faixa-trilho {
+        animation: none;
     }
 }
