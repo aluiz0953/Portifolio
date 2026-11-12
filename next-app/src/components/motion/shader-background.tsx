@@ -120,7 +120,8 @@ export function ShaderBackground({
   className,
   ...rest
 }: ShaderBackgroundProps) {
-  const reducedMotion = useReducedMotion();
+  // No celular o shader continua animado mesmo com redução de movimento (ver lib/motion.ts)
+  const reducedMotion = useReducedMotion() && !window.matchMedia("(max-width: 767px)").matches;
   const Shader = VARIANT_COMPONENTS[variant] as ComponentType<
     Record<string, unknown>
   >;

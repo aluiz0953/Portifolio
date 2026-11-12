@@ -6,7 +6,10 @@ import Lenis from "lenis"
 
 let lenis: Lenis | null = null
 
-export const prefersReduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches
+// A redução de movimento vale no desktop. No celular (até 767 px) as animações continuam, por pedido do dono.
+export const isMobile = () => window.matchMedia("(max-width: 767px)").matches
+export const prefersReduced = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches && !isMobile()
 export const lockScroll = (on: boolean) => (on ? lenis?.stop() : lenis?.start())
 export const refreshScroll = () => ScrollTrigger.refresh()
 
