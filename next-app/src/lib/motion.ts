@@ -32,7 +32,17 @@ export function initMotion(root: HTMLElement) {
   }
   document.addEventListener("click", onClick)
 
-  if (prefersReduced()) return () => document.removeEventListener("click", onClick)
+  // Lenis e as linhas do tempo são montados uma vez. Se a preferência mudar com a página aberta, recarrega
+  // para montar o modo certo, em vez de deixar animação ligada com o sistema pedindo para parar.
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
+  const onPref = () => location.reload()
+  mq.addEventListener("change", onPref)
+  const baseCleanup = () => {
+    document.removeEventListener("click", onClick)
+    mq.removeEventListener("change", onPref)
+  }
+
+  if (prefersReduced()) return baseCleanup
 
   gsap.registerPlugin(ScrollTrigger)
   lenis = new Lenis({ lerp: 0.1 })
@@ -128,7 +138,7 @@ export function initMotion(root: HTMLElement) {
   window.addEventListener("load", refresh)
 
   return () => {
-    document.removeEventListener("click", onClick)
+    baseCleanup()
     window.removeEventListener("load", refresh)
     cleanups.forEach((fn) => fn())
     ctx.revert()
