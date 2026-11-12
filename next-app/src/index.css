@@ -4,44 +4,49 @@
 @import "lenis/dist/lenis.css";
 
 /*
- * Tokens do design system do portfólio: Raven Black, Powder Blue e Poppy Red.
- * Contraste medido (WCAG): raven/azul-pó 11,68 | branco/vermelho 4,57 | vermelho/azul-pó 3,19 | raven/vermelho 3,67.
- * Por isso o vermelho é sempre preenchimento com texto branco, nunca texto corrido, e o azul-pó não é texto sobre vermelho.
+ * Tokens do design system "Lavanda" (next-app/design-system/lavanda): Space Black, Deep Lavender e Sunrise Orange.
+ * Contraste medido (WCAG): branco/lavanda 4,75 | Space Black/laranja 6,52 | laranja/Space Black 6,52 | laranja/mist 2,67 (reprovado).
+ * Lavanda pede texto branco; laranja pede texto Space Black e nunca é texto sobre claro.
  */
 :root {
-  --color-raven: #1c1e1e;
-  --color-raven-deep: #0b0b0b;
-  --color-charcoal: #3d3d3d;
-  --color-powder: #b0e0e6;
-  --color-powder-raised: #d4eff3;
-  --color-powder-sunk: #9dcdd4;
-  --color-poppy: #dc343b;
-  --color-poppy-deep: #c73d32;
-  --color-on-poppy: #ffffff;
+  --color-space: #0a0c0d;
+  --color-space-raised: #161a1c;
+  --color-space-deep: #050607;
+  --color-lavender: #8d5eb7;
+  --color-lavender-deep: #734f96;
+  --color-lavender-soft: #c9a8e8;
+  --color-orange: #e67451;
+  --color-orange-deep: #d9633f;
+  --color-mist: #f4f0f8;
+  --color-mist-raised: #fbf9fd;
+  --color-mist-sunk: #e8e0f0;
+  --color-white: #ffffff;
 
-  --bg: var(--color-powder);
-  --bg-raised: var(--color-powder-raised);
-  --bg-sunk: var(--color-powder-sunk);
-  --fg: var(--color-raven);
-  --fg-muted: #344042;
-  --border: rgb(28 30 30 / 0.18);
-  --border-strong: rgb(28 30 30 / 0.45);
-  --primary-bg: var(--color-poppy);
-  --primary-fg: var(--color-on-poppy);
-  --primary-hover: var(--color-poppy-deep);
-  /* Bloco forte: raven no claro, azul-pó no escuro */
-  --strong-bg: var(--color-raven);
-  --strong-fg: var(--color-powder);
-  --strong-muted: #9dbfc4;
-  --focus-ring: var(--color-raven);
-  --shadow-card: 0 1px 0 rgb(28 30 30 / 0.06), 0 14px 32px -18px rgb(28 30 30 / 0.4);
-  --shadow-lift: 0 2px 0 rgb(28 30 30 / 0.08), 0 28px 56px -22px rgb(28 30 30 / 0.55);
+  --bg: var(--color-mist);
+  --bg-raised: var(--color-mist-raised);
+  --bg-sunk: var(--color-mist-sunk);
+  --fg: var(--color-space);
+  --fg-muted: #4a4455;
+  --border: rgb(10 12 13 / 0.16);
+  --border-strong: rgb(10 12 13 / 0.45);
+  --primary-bg: var(--color-lavender);
+  --primary-fg: var(--color-white);
+  --primary-hover: var(--color-lavender-deep);
+  --accent-bg: var(--color-orange);
+  --accent-fg: var(--color-space);
+  --link: var(--color-lavender-deep);
+  --strong-bg: var(--color-space);
+  --strong-fg: var(--color-mist);
+  --strong-muted: #b9b0c4;
+  --focus-ring: var(--color-space);
+  --shadow-card: 0 1px 0 rgb(10 12 13 / 0.06), 0 14px 32px -18px rgb(10 12 13 / 0.4);
+  --shadow-lift: 0 2px 0 rgb(10 12 13 / 0.08), 0 28px 56px -22px rgb(10 12 13 / 0.55);
 
-  /* Cores do grão: palco escuro com grão vermelho, nos dois temas */
-  --grain-back: var(--color-raven);
-  --grain-1: var(--color-poppy);
-  --grain-2: var(--color-poppy-deep);
-  --grain-3: var(--color-charcoal);
+  /* Grão: palco escuro com lavanda e laranja, nos dois temas */
+  --grain-back: var(--color-space);
+  --grain-1: var(--color-lavender);
+  --grain-2: var(--color-orange);
+  --grain-3: var(--color-space-raised);
 
   --gutter: clamp(1rem, 4vw, 3rem);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -49,21 +54,22 @@
 }
 
 :root[data-theme="dark"] {
-  --bg: var(--color-raven);
-  --bg-raised: #2a2d2d;
-  --bg-sunk: #121313;
-  --fg: var(--color-powder);
-  --fg-muted: #9dbfc4;
-  --border: rgb(176 224 230 / 0.16);
-  --border-strong: rgb(176 224 230 / 0.42);
-  --strong-bg: var(--color-powder);
-  --strong-fg: var(--color-raven);
-  --strong-muted: #344042;
-  --focus-ring: var(--color-powder);
+  --bg: var(--color-space);
+  --bg-raised: var(--color-space-raised);
+  --bg-sunk: var(--color-space-deep);
+  --fg: var(--color-mist);
+  --fg-muted: #b9b0c4;
+  --border: rgb(244 240 248 / 0.14);
+  --border-strong: rgb(244 240 248 / 0.4);
+  --link: var(--color-lavender-soft);
+  --strong-bg: var(--color-mist);
+  --strong-fg: var(--color-space);
+  --strong-muted: #4a4455;
+  --focus-ring: var(--color-lavender-soft);
   --shadow-card: 0 1px 0 rgb(0 0 0 / 0.3), 0 18px 36px -20px rgb(0 0 0 / 0.7);
   --shadow-lift: 0 2px 0 rgb(0 0 0 / 0.35), 0 30px 60px -22px rgb(0 0 0 / 0.8);
-  --grain-back: var(--color-raven-deep);
-  --grain-3: var(--color-raven);
+  --grain-back: var(--color-space-deep);
+  --grain-3: var(--color-space);
   color-scheme: dark;
 }
 
@@ -75,10 +81,10 @@
   --color-muted: var(--fg-muted);
   --color-line: var(--border);
   --color-line-strong: var(--border-strong);
-  --color-raven: var(--color-raven);
-  --color-powder: var(--color-powder);
-  --color-poppy: var(--color-poppy);
-  --color-on-poppy: var(--color-on-poppy);
+  --color-lavender: var(--color-lavender);
+  --color-orange: var(--color-orange);
+  --color-accent: var(--accent-bg);
+  --color-on-accent: var(--accent-fg);
   --color-strong: var(--strong-bg);
   --color-on-strong: var(--strong-fg);
   --color-on-strong-muted: var(--strong-muted);
@@ -120,8 +126,8 @@
   }
   /* Superfícies do navegador, no tom do sistema */
   ::selection {
-    background: var(--color-poppy);
-    color: var(--color-on-poppy);
+    background: var(--color-orange);
+    color: var(--color-space);
   }
   input,
   textarea {
@@ -188,6 +194,7 @@
   }
 
   .link {
+    color: var(--link);
     text-decoration: underline;
     text-decoration-thickness: 1.5px;
     text-underline-offset: 4px;
@@ -195,7 +202,7 @@
     transition: text-decoration-color 0.2s var(--ease-out);
   }
   .link:hover {
-    text-decoration-color: var(--color-poppy);
+    text-decoration-color: var(--color-orange);
   }
 
   .chip {
@@ -266,15 +273,16 @@
    * passa de 4,5:1 sobre o vermelho (4,57:1). Os tokens são redefinidos no próprio palco.
    */
   .stage {
-    --fg: var(--color-on-poppy);
+    --fg: var(--color-white);
     --fg-muted: rgb(255 255 255 / 0.82);
     --border: rgb(255 255 255 / 0.22);
     --border-strong: rgb(255 255 255 / 0.6);
-    --primary-bg: var(--color-on-poppy);
-    --primary-fg: var(--color-raven);
-    --primary-hover: var(--color-powder);
+    --primary-bg: var(--color-white);
+    --primary-fg: var(--color-space);
+    --primary-hover: var(--color-mist-sunk);
     --bg-sunk: rgb(255 255 255 / 0.14);
-    --focus-ring: var(--color-on-poppy);
+    --link: var(--color-white);
+    --focus-ring: var(--color-white);
     color: var(--fg);
     background: var(--grain-back);
   }

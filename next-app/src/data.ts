@@ -288,8 +288,8 @@ export const PROJETOS: Projeto[] = [
     entrega: "Fundo de grão em WebGL, tema claro e escuro, projetos filtrados por grupo, navegação por teclado e formulário de contato com validação.",
     tech: ["React", "Vite", "Tailwind CSS", "GSAP", "Lenis"],
     links: [{ rotulo: "Ver no GitHub", href: "https://github.com/aluiz0953/Portifolio" }],
-    desk: { src: c("captura-portfolio"), escuro: c("captura-portfolio-escuro"), alt: "Início deste portfólio: o nome André Luiz em letras brancas grandes sobre um palco escuro com grão vermelho" },
-    cel: { src: c("captura-portfolio-mobile"), escuro: c("captura-portfolio-mobile-escuro"), alt: "Início deste portfólio no celular, com o nome em letras brancas grandes sobre o grão vermelho" },
+    desk: { src: c("captura-portfolio"), escuro: c("captura-portfolio-escuro"), alt: "Início deste portfólio: o nome André Luiz em letras brancas grandes sobre um palco escuro com grão lavanda e laranja" },
+    cel: { src: c("captura-portfolio-mobile"), escuro: c("captura-portfolio-mobile-escuro"), alt: "Início deste portfólio no celular, com o nome em letras brancas grandes sobre o grão lavanda e laranja" },
   },
 ]
 

@@ -71,7 +71,7 @@ export function Path() {
           </div>
         </article>
 
-        <article data-rise className="flex min-h-72 flex-col justify-between gap-10 rounded-card bg-poppy p-6 text-on-poppy md:col-span-5 md:p-10">
+        <article data-rise className="flex min-h-72 flex-col justify-between gap-10 rounded-card bg-accent p-6 text-on-accent md:col-span-5 md:p-10">
           <h3 className="text-3xl md:text-4xl">Idiomas</h3>
           <dl className="grid gap-4">
             <div>

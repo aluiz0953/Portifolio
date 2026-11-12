@@ -1,0 +1,94 @@
+/*
+ * Design system do portfólio, paleta "Lavanda": Space Black, Deep Lavender e Sunrise Orange.
+ * Fonte dos valores: DESIGN.md (contraste medido). Este arquivo é a referência; o app lê os mesmos
+ * tokens em src/index.css.
+ *
+ * Papéis, em uma frase cada:
+ *   Space Black  #0A0C0D  fundo escuro, texto sobre claro, bloco forte
+ *   Deep Lavender #8D5EB7 ação principal (preenchimento, texto branco)
+ *   Sunrise Orange #E67451 destaque (preenchimento com texto Space Black, ou texto sobre escuro)
+ * Neutros derivados (não fazem parte da paleta recebida, existem para dar leitura): mist, raised, sunk.
+ */
+
+:root {
+  /* Paleta recebida */
+  --color-space: #0a0c0d;
+  --color-lavender: #8d5eb7;
+  --color-orange: #e67451;
+
+  /* Variações derivadas */
+  --color-space-raised: #161a1c;
+  --color-space-deep: #050607;
+  --color-lavender-deep: #734f96;   /* hover do botão e links sobre claro */
+  --color-lavender-soft: #c9a8e8;   /* links e textos de destaque sobre escuro */
+  --color-orange-deep: #d9633f;     /* hover do destaque */
+  --color-mist: #f4f0f8;            /* fundo claro, texto sobre escuro */
+  --color-mist-raised: #fbf9fd;
+  --color-mist-sunk: #e8e0f0;
+  --color-white: #ffffff;           /* só como texto sobre lavanda e dentro do palco do grão */
+
+  /* Semânticos: tema claro */
+  --bg: var(--color-mist);
+  --bg-raised: var(--color-mist-raised);
+  --bg-sunk: var(--color-mist-sunk);
+  --fg: var(--color-space);
+  --fg-muted: #4a4455;
+  --border: rgb(10 12 13 / 0.16);
+  --border-strong: rgb(10 12 13 / 0.45);
+  --primary-bg: var(--color-lavender);
+  --primary-fg: var(--color-white);
+  --primary-hover: var(--color-lavender-deep);
+  --accent-bg: var(--color-orange);
+  --accent-fg: var(--color-space);
+  --accent-hover: var(--color-orange-deep);
+  --link: var(--color-lavender-deep);
+  --strong-bg: var(--color-space);
+  --strong-fg: var(--color-mist);
+  --strong-muted: #b9b0c4;
+  --focus-ring: var(--color-space);
+
+  /* Grão: palco escuro nos dois temas */
+  --grain-back: var(--color-space);
+  --grain-1: var(--color-lavender);
+  --grain-2: var(--color-orange);
+  --grain-3: var(--color-space-raised);
+
+  color-scheme: light;
+}
+
+/* Tema escuro: a página inteira muda, nunca uma seção só */
+:root[data-theme="dark"] {
+  --bg: var(--color-space);
+  --bg-raised: var(--color-space-raised);
+  --bg-sunk: var(--color-space-deep);
+  --fg: var(--color-mist);
+  --fg-muted: #b9b0c4;
+  --border: rgb(244 240 248 / 0.14);
+  --border-strong: rgb(244 240 248 / 0.4);
+  --link: var(--color-lavender-soft);
+  --strong-bg: var(--color-mist);
+  --strong-fg: var(--color-space);
+  --strong-muted: #4a4455;
+  --focus-ring: var(--color-lavender-soft);
+  --grain-back: var(--color-space-deep);
+  --grain-3: var(--color-space);
+  color-scheme: dark;
+}
+
+/* Palco do grão (hero e contato): texto branco sobre Space Black e lavanda; botão branco com texto Space Black */
+.stage {
+  --fg: var(--color-white);
+  --fg-muted: rgb(255 255 255 / 0.82);
+  --border: rgb(255 255 255 / 0.22);
+  --border-strong: rgb(255 255 255 / 0.6);
+  --primary-bg: var(--color-white);
+  --primary-fg: var(--color-space);
+  --primary-hover: var(--color-mist-sunk);
+  --bg-sunk: rgb(255 255 255 / 0.14);
+  --link: var(--color-white);
+  --focus-ring: var(--color-white);
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 768px) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

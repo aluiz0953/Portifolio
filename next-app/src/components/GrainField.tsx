@@ -15,8 +15,8 @@ function readPalette() {
   const cs = getComputedStyle(document.documentElement)
   const v = (n: string) => cs.getPropertyValue(`--color-${n}`).trim()
   return {
-    light: { back: v("raven"), colors: [v("poppy"), v("poppy-deep"), v("charcoal")] },
-    dark: { back: v("raven-deep"), colors: [v("poppy"), v("poppy-deep"), v("raven")] },
+    light: { back: v("space"), colors: [v("lavender"), v("orange"), v("space-raised")] },
+    dark: { back: v("space-deep"), colors: [v("lavender"), v("orange"), v("space")] },
   }
 }
 

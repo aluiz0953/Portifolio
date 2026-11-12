@@ -16,7 +16,7 @@ export function App() {
   // O atributo muda antes da pintura, para o grão ler as cores já do tema novo
   useLayoutEffect(() => {
     document.documentElement.dataset.theme = theme
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#1C1E1E" : "#B0E0E6")
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#0A0C0D" : "#F4F0F8")
   }, [theme])
 
   const toggleTheme = () => {
