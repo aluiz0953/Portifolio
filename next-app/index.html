@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>André Luiz Guilarducci Pereira · Portfólio</title>
+    <meta
+      name="description"
+      content="Portfólio de André Luiz Guilarducci Pereira, estudante de Ciências da Computação: sites, sistemas web e aplicativos, do banco de dados à animação."
+    />
+    <meta property="og:title" content="André Luiz Guilarducci Pereira · Portfólio" />
+    <meta
+      property="og:description"
+      content="Sites, sistemas web e aplicativos, do banco de dados à animação."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./capturas/captura-portfolio.webp" />
+    <meta name="theme-color" content="#B0E0E6" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <script>
+      // Antes da pintura: tema salvo ou o do sistema, para a página não piscar.
+      try {
+        var t = localStorage.getItem("tema");
+        if (t !== "light" && t !== "dark")
+          t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <p style="padding: 24px; font-family: system-ui, sans-serif">
+        Este portfólio precisa de JavaScript. Fale comigo em aluiz0953@gmail.com ou veja os projetos em
+        github.com/aluiz0953.
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
